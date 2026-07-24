@@ -33,8 +33,7 @@ export function AyudaModule() {
       <div className="ayuda-recurso">
         <span>
           📄 <strong>Guía de referencia completa</strong> — el algoritmo y sus ecuaciones, la
-          documentación de las guías, los hallazgos de ingeniería inversa del programa oficial, el
-          ejemplo validado y cómo usar el sitio.
+          documentación de las guías y sus tipos de regla, el ejemplo validado y cómo usar el sitio.
         </span>
         <a className="ayuda-btn" href="/guia-ica.pdf" target="_blank" rel="noopener">Descargar PDF</a>
       </div>

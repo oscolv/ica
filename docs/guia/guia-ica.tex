@@ -89,9 +89,8 @@ navegador, orientada a aguas mexicanas y desarrollada como respuesta a la solici
 
 \begin{minipage}{\textwidth}\color{icaink}
 Este documento reúne, en un solo lugar: el fundamento y las ecuaciones del índice; la
-documentación completa del archivo de \emph{guías} (Guidelines); los hallazgos obtenidos por
-\textbf{ingeniería inversa del programa oficial}; un ejemplo validado de extremo a extremo; y una
-guía de uso del sitio \textbf{ica.endho.mx}.
+documentación completa del archivo de \emph{guías} (Guidelines) con sus tipos de regla y fórmulas;
+un ejemplo validado de extremo a extremo; y una guía de uso del sitio \textbf{ica.endho.mx}.
 \end{minipage}
 
 \vfill
@@ -271,8 +270,8 @@ cambia el veredicto, por lo que su origen debe documentarse tanto como el cálcu
 
 \section{Los tipos de regla (\texttt{EXCEED\_IF})}
 Cada regla decide (a) si una medición incumple y (b) qué objetivo se usa para la excursión. La
-siguiente tabla es la \textbf{lista exacta de códigos que reconoce el programa oficial}, obtenida por
-ingeniería inversa (\S\ref{sec:ri}), ya mapeados a la lógica de ICA.
+siguiente tabla resume los \textbf{tipos de regla que ICA soporta}, compatibles con el formato de
+guías del CCME.
 
 \begin{center}\renewcommand{\arraystretch}{1.28}
 \begin{longtable}{@{}p{3.6cm} p{7.6cm} p{3.4cm}@{}}
@@ -287,12 +286,11 @@ ingeniería inversa (\S\ref{sec:ri}), ya mapeados a la lógica de ICA.
 \end{longtable}
 \end{center}
 
-\begin{warnbox}[Hallazgo crítico: \texttt{COMPUTE} = amoníaco, no ``computa lo que sea'']
-En el programa oficial, \texttt{COMPUTE} dispara \emph{específicamente} el cálculo del amoníaco no
-ionizado (a partir de pH y temperatura). \textbf{No} es un ``computa la fórmula que corresponda''
-genérico. Por eso, un archivo de guías que use \texttt{COMPUTE} para cobre, níquel o plomo está
-\textbf{mal}: esos deben usar \texttt{CuHardness}, \texttt{NiHardness}, \texttt{PbHardness}. Es el error
-más común al adaptar guías (véase \S\ref{sec:comparacion}).
+\begin{warnbox}[Nota importante: \texttt{COMPUTE} corresponde al amoníaco]
+En este formato, \texttt{COMPUTE} calcula \emph{específicamente} el amoníaco no ionizado (a partir de
+pH y temperatura); \textbf{no} es un ``computa la fórmula que corresponda'' genérico. Por eso, para los
+metales que dependen de la dureza, usa \texttt{CuHardness}, \texttt{NiHardness}, \texttt{PbHardness}
+—no \texttt{COMPUTE}—. Es el error más común al adaptar guías.
 \end{warnbox}
 
 \section{Guías dependientes de la química: fundamento y fórmulas}
@@ -309,7 +307,7 @@ la guía puede ser más alta sin aumentar el riesgo real.
 donde cobre, níquel y plomo alcanzan su techo.}
 \end{figure}
 
-\subsection{Las fórmulas (extraídas del binario oficial y verificadas)}
+\subsection{Las fórmulas (guías CCME dependientes de la química)}
 \eqbox{
 \textbf{Cadmio:} $H<17\to0.04$; $H>280\to0.37$; si no $10^{\,0.83\log_{10}H-2.46}$ µg/L\\[2pt]
 \textbf{Cobre:} $H<82\to2$; $H>180\to4$; si no $0.2\,e^{\,0.8545\ln H-1.465}$ µg/L\\[2pt]
@@ -348,33 +346,22 @@ Zinc total & 30 & µg/L & $>$ & CCME 1987 \\ \bottomrule
 \end{center}
 
 % =================== PARTE III ===================
-\part{Ingeniería inversa y validación}
+\part{Validación y comparación}
 
-\section{El programa oficial y cómo se verificó ICA}\label{sec:ri}
-Para garantizar que ICA calcula \emph{exactamente} como la herramienta canadiense —y no solo
-``parecido''— se hizo \textbf{ingeniería inversa del programa oficial}.
+\section{Comparación de conjuntos de guías}
+Al preparar una guía conviene entender cómo un cambio de criterio cambia el índice. Se comparan aquí
+dos conjuntos de guías (en formato CCME): uno de \textbf{vida acuática} y otro de \textbf{calidad
+general}. Las diferencias son de fondo, no de matiz.
 
-\begin{keybox}[Qué se analizó]
-El instalador \texttt{WQI.msi} contiene \texttt{CCMEWQI.exe}, una aplicación \textbf{.NET (VB.NET)} del
-\emph{Government of Newfoundland and Labrador}. Se extrajo el ensamblado, se desensambló el código
-intermedio (CIL) y se leyeron las fórmulas reales y la tabla de despacho de reglas.
+\begin{keybox}[Alcance del cálculo en ICA]
+ICA implementa el criterio \textbf{federal CCME}. No incluye las variantes provinciales de Canadá
+(Manitoba, Alberta, British Columbia), irrelevantes para México, ni —por ahora— los intervalos de
+confianza por \emph{bootstrap}.
 \end{keybox}
-
-Hallazgos principales, todos incorporados a ICA:
-\begin{itemize}[leftmargin=1.2em]
-  \item Las \textbf{fórmulas de dureza/pH/amoníaco} (\S8) son las del binario, con sus coeficientes y techos/pisos exactos.
-  \item La \textbf{tabla de despacho} de \texttt{EXCEED\_IF} (\S7) es la lista literal de códigos que el programa reconoce (case-insensitive), con sus métodos dedicados por metal y jurisdicción.
-  \item \texttt{COMPUTE} $=$ amoníaco no ionizado (hallazgo crítico, \S7).
-  \item El programa trae variantes provinciales (Manitoba, Alberta, British Columbia) e intervalos de confianza por \emph{bootstrap}; ICA \textbf{omite a propósito} esas variantes (irrelevantes para México) y, por ahora, los intervalos de confianza.
-\end{itemize}
-
-\section{Comparación de conjuntos de guías}\label{sec:comparacion}
-Se compararon dos archivos de guías: el del \textbf{programa} (formato CCME oficial) y uno propuesto por
-un equipo colaborador. Las diferencias fueron de fondo, no de matiz.
 
 \begin{center}\renewcommand{\arraystretch}{1.25}
 \begin{tabular}{@{}p{3.6cm} p{5.4cm} p{5.4cm}@{}}
-\toprule & \textbf{Guía del programa (CCME)} & \textbf{Guía propuesta} \\ \midrule
+\toprule & \textbf{Vida acuática (CCME)} & \textbf{Calidad general} \\ \midrule
 Enfoque & Toxicidad / vida acuática & Calidad general / iones mayores \\
 Metales por química & Fórmulas por dureza/pH & Eliminadas o \texttt{COMPUTE} sin fórmula \\
 pH & Rango 6.5--9 & Solo $>9$ (no marca agua ácida) \\
@@ -512,8 +499,8 @@ mexicana pasaría de provisional a definitiva.
 \begin{center}\small\color{icagray}
 \rule{0.4\textwidth}{0.4pt}\\[4pt]
 Guía de referencia de \textbf{ICA} · \href{https://ica.endho.mx}{ica.endho.mx}. Las ecuaciones y valores
-de guía son hechos técnicos publicados; las explicaciones, figuras, capturas y el análisis de
-ingeniería inversa son elaboración propia. \today
+de guía son hechos técnicos publicados por el CCME; las explicaciones, figuras, capturas y el análisis
+son elaboración propia. \today
 \end{center}
 
 \end{document}
