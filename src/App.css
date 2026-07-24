@@ -1,0 +1,123 @@
+:root {
+  --bg: #0f172a;
+  --bg2: #111f3a;
+  --card: #16233f;
+  --line: #24365c;
+  --text: #e8eef7;
+  --muted: #9fb2cf;
+  --accent: #3b82f6;
+  --accent2: #22d3ee;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f7fb;
+    --bg2: #eaf0f8;
+    --card: #ffffff;
+    --line: #dbe4f0;
+    --text: #16233f;
+    --muted: #566481;
+    --accent: #1f4e79;
+    --accent2: #0e7490;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(160deg, var(--bg), var(--bg2));
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 2rem 0 2.5rem;
+}
+
+.brand {
+  display: inline-block;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  font-size: 0.9rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+}
+
+.hero h1 {
+  font-size: clamp(1.9rem, 5vw, 3rem);
+  margin: 1rem 0 0.5rem;
+  line-height: 1.1;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 620px;
+  margin: 0 auto 1.25rem;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.4rem;
+}
+
+.card-n {
+  font-size: 1.5rem;
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+.card h2 {
+  margin: 0.4rem 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.foot {
+  text-align: center;
+  margin-top: 3rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.foot .muted {
+  opacity: 0.7;
+  font-size: 0.85rem;
+}
