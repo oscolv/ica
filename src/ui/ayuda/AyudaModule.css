@@ -1,0 +1,12 @@
+.ayuda-tutorial {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1.2rem; margin-bottom: 1.5rem;
+}
+.ayuda-tutorial h2 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+.ayuda-tutorial p { color: var(--muted); line-height: 1.6; margin: 0 0 0.9rem; }
+.ayuda-btn {
+  background: var(--accent); color: #fff; border: none; border-radius: 8px;
+  padding: 0.5rem 0.9rem; cursor: pointer; font: inherit; font-weight: 600;
+}
+.ayuda-btn:hover { filter: brightness(1.08); }
+.ayuda-ok { color: var(--accent2); font-weight: 600; margin-top: 0.9rem; }
