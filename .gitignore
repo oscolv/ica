@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Sesiones de superpowers (brainstorming visual, planes temporales)
+.superpowers/
