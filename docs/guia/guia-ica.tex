@@ -1,0 +1,519 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,provide=*]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{pifont}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\geometry{margin=2.3cm,headsep=14pt}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{hyperref}
+
+% ---- Paleta de marca ICA ----
+\definecolor{icablue}{HTML}{1F4E79}
+\definecolor{icacyan}{HTML}{0E7490}
+\definecolor{icaink}{HTML}{16233F}
+\definecolor{icagray}{HTML}{5D6D7E}
+\definecolor{icalight}{HTML}{EAF0F6}
+\definecolor{icared}{HTML}{C0392B}
+\definecolor{icagreen}{HTML}{1E8449}
+\definecolor{icaamber}{HTML}{B7791F}
+
+\hypersetup{colorlinks=true,linkcolor=icablue,urlcolor=icacyan,citecolor=icablue,
+  pdftitle={Guia de referencia ICA - Indice de Calidad del Agua},pdfauthor={ICA}}
+\captionsetup{font=small,labelfont={bf,color=icablue}}
+\setlength{\parskip}{0.35em}
+\setlength{\parindent}{0pt}
+
+\titleformat{\part}{\centering\Huge\bfseries\color{icablue}}{\thepart}{1em}{}[{\color{icacyan}\titlerule[1.5pt]}]
+\titleformat{\section}{\color{icablue}\Large\bfseries}{\thesection}{0.6em}{}[{\color{icalight}\titlerule[1pt]}]
+\titleformat{\subsection}{\color{icacyan}\large\bfseries}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\color{icagray}\normalsize\bfseries}{\thesubsubsection}{0.6em}{}
+
+\pagestyle{fancy}\fancyhf{}
+\lhead{\small\color{icagray}\textbf{ICA} · Índice de Calidad del Agua}
+\rhead{\small\color{icagray}\leftmark}
+\lfoot{\small\color{icagray}ica.endho.mx}
+\rfoot{\small\color{icagray}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+% ---- Cajas ----
+\newtcolorbox{keybox}[1][]{colback=icalight,colframe=icablue,fonttitle=\bfseries,coltitle=white,
+  title={#1},boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+\newtcolorbox{warnbox}[1][]{colback=icared!6,colframe=icared,fonttitle=\bfseries,coltitle=white,
+  title={#1},boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+\newtcolorbox{okbox}[1][]{colback=icagreen!6,colframe=icagreen,fonttitle=\bfseries,coltitle=white,
+  title={#1},boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+\newtcolorbox{sitebox}[1][]{colback=icacyan!7,colframe=icacyan,fonttitle=\bfseries,coltitle=white,
+  title={#1},boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
+\newcommand{\eqbox}[1]{\begin{tcolorbox}[colback=white,colframe=icablue,boxrule=0.6pt,arc=1pt,
+  left=6pt,right=6pt,top=3pt,bottom=3pt]#1\end{tcolorbox}}
+\newcommand{\shot}[2]{\begin{center}\fcolorbox{icalight}{white}{\includegraphics[width=#2]{#1}}\end{center}}
+
+\begin{document}
+
+% =================== PORTADA ===================
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tcolorbox}[colback=icablue,colframe=icablue,arc=0pt,left=18pt,right=18pt,top=26pt,bottom=26pt,width=\textwidth]
+\color{white}
+{\fontsize{13}{13}\selectfont\bfseries\hspace{2pt}ICA}\\[6pt]
+{\fontsize{30}{34}\selectfont\bfseries Índice de Calidad del Agua}\\[4pt]
+{\LARGE Guía de referencia y manual de usuario}
+\end{tcolorbox}
+
+\vspace{1.2cm}
+\begin{minipage}{\textwidth}
+\large
+Una aplicación web para calcular el \textbf{CCME Water Quality Index} directamente en el
+navegador, orientada a aguas mexicanas y desarrollada como respuesta a la solicitud de un
+\textbf{Índice de Calidad del Agua} para SEMARNAT.
+\end{minipage}
+
+\vspace{0.9cm}
+{\color{icacyan}\rule{\linewidth}{2pt}}
+\vspace{0.6cm}
+
+\begin{minipage}{\textwidth}\color{icaink}
+Este documento reúne, en un solo lugar: el fundamento y las ecuaciones del índice; la
+documentación completa del archivo de \emph{guías} (Guidelines); los hallazgos obtenidos por
+\textbf{ingeniería inversa del programa oficial}; un ejemplo validado de extremo a extremo; y una
+guía de uso del sitio \textbf{ica.endho.mx}.
+\end{minipage}
+
+\vfill
+\begin{tcolorbox}[colback=icalight,colframe=icalight,arc=2pt]
+\small\color{icaink}
+\textbf{Sitio:} \href{https://ica.endho.mx}{ica.endho.mx} \quad\textbullet\quad
+\textbf{Código:} github.com/oscolv/ica \quad\textbullet\quad
+\textbf{Privacidad:} todo el cálculo ocurre en tu navegador; ningún dato se sube a un servidor.
+\end{tcolorbox}
+{\small\color{icagray}Documento de referencia técnica · \today}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% =================== PARTE I ===================
+\part{El índice}
+
+\section{Qué es ICA}
+\textbf{ICA} es una aplicación web que calcula el \textbf{CCME Water Quality Index (CCME WQI)} y comunica
+el resultado de forma clara. Convierte una montaña de datos de monitoreo —muchos parámetros, muchas
+fechas, varias estaciones— en un único número entre \textbf{0} (peor) y \textbf{100} (mejor) y una
+categoría verbal, con narrativa automática y gráficas.
+
+\begin{sitebox}[La herramienta, en una frase]
+ICA responde ``¿qué tan lejos está esta agua de cumplir sus propias reglas?'' midiendo la falla en
+tres dimensiones —cuántos parámetros, con qué frecuencia y por cuánto— y combinándolas
+geométricamente para que ningún problema grave se diluya. Todo sucede en tu navegador.
+\end{sitebox}
+
+El índice fue endosado por el Canadian Council of Ministers of the Environment (CCME) en 2001 y
+actualizado en 2017; deriva del índice de British Columbia (Rocchini y Swain, 1995) con
+modificaciones de Alberta. ICA lo lleva al navegador, en español, con presets y una plantilla
+pensada para México.
+
+\subsection{Qué es y qué no es el CCME WQI}
+\begin{keybox}[La idea central]
+El índice \textbf{no compara concentraciones entre sí} (no tendría sentido comparar µg/L de un
+pesticida contra mg/L de un ión mayor). Cada medición se compara \textbf{únicamente contra su propia
+guía}. La pregunta para cada dato no es ``¿cuánto hay?'' sino ``¿cumple su límite, y por cuánto se
+pasa?''. Así todo se traduce a una moneda común: \textbf{distancia respecto a lo aceptable}.
+\end{keybox}
+
+\begin{minipage}[t]{0.48\textwidth}
+\textbf{Qué es}
+\begin{itemize}[leftmargin=1.1em,nosep]
+  \item Una herramienta de \textbf{comunicación}.
+  \item Un marco \textbf{relativo a guías} definidas por el usuario.
+  \item \textbf{Flexible}: parámetros, guías, periodo y cuerpo de agua.
+  \item \textbf{Sin ponderaciones arbitrarias}: la toxicidad vive en la guía.
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\textbf{Qué NO es}
+\begin{itemize}[leftmargin=1.1em,nosep]
+  \item Un \textbf{diagnóstico}: dice que el agua está mal, no por qué.
+  \item \textbf{Absoluto}: cambia si cambian parámetros o guías.
+  \item Un captador de \textbf{eventos transitorios} (derrames).
+  \item Un \textbf{sustituto} de una evaluación detallada.
+\end{itemize}
+\end{minipage}
+
+\section{Los tres factores}
+``Mala calidad'' puede significar tres cosas distintas; el índice las captura por separado.
+
+\begin{center}\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{2.3cm} p{4.1cm} p{7.6cm}@{}}
+\toprule
+\textbf{Factor} & \textbf{Pregunta} & \textbf{Interpretación} \\ \midrule
+$F_1$ \small Scope & ¿\emph{Cuántos} parámetros fallan al menos una vez? & Extensión del problema. \\
+$F_2$ \small Frequency & ¿\emph{Con qué frecuencia} fallan? & Persistencia. \\
+$F_3$ \small Amplitude & ¿\emph{Por cuánto} se pasan de la guía? & Severidad. \\ \bottomrule
+\end{tabular}
+\end{center}
+
+Los tres se tratan como \textbf{ejes perpendiculares} en un espacio tridimensional; el índice es la
+longitud de ese vector, normalizada. La elección geométrica es deliberada: hace que \textbf{un solo
+factor alto ya arrastre el resultado hacia abajo}, impidiendo que un problema grave se esconda
+detrás de parámetros que sí cumplen.
+
+\section{Las ecuaciones, al detalle}
+Definidos el cuerpo de agua, el periodo, los parámetros y sus guías, se calculan los tres factores.
+
+\subsection{$F_1$ — Scope (alcance)}
+Porcentaje de \emph{parámetros} que no cumplen su guía \textbf{al menos una vez}.
+\eqbox{\[F_1=\left(\frac{\text{parámetros fallidos}}{\text{parámetros totales}}\right)\times 100\tag{1}\]}
+
+\subsection{$F_2$ — Frequency (frecuencia)}
+Porcentaje de \emph{pruebas individuales} (cada dato de cada parámetro en cada fecha) que no cumplen.
+\eqbox{\[F_2=\left(\frac{\text{pruebas fallidas}}{\text{pruebas totales}}\right)\times 100\tag{2}\]}
+
+\subsection{$F_3$ — Amplitude (amplitud), en tres pasos}
+\textbf{Paso i — Excursión.} Cuántas veces un valor rebasa su guía:
+\eqbox{
+Si el valor \textbf{no debe superar} la guía: \(\ \text{excursión}_i=\left(\dfrac{\text{valor}_i}{\text{objetivo}_j}\right)-1\ \) (3a)\\[3pt]
+Si el valor \textbf{no debe caer por debajo} (p. ej. oxígeno disuelto): \(\ \text{excursión}_i=\left(\dfrac{\text{objetivo}_j}{\text{valor}_i}\right)-1\ \) (3b)}
+
+\begin{keybox}[El detalle que domina el resultado]
+La excursión se mide contra la \textbf{misma guía} que decide si el parámetro falla. Por eso una guía
+pequeña produce excursiones enormes: un aluminio de $0.166$ mg/L contra una guía de $0.005$ mg/L da
+$0.166/0.005-1=32$. La guía no solo decide \emph{si} falla, también \emph{por cuánto}.
+\end{keybox}
+
+\textbf{Paso ii — Suma normalizada de excursiones (nse).} Se dividen entre \emph{todas} las pruebas
+(las que cumplen y las que no):
+\eqbox{\[nse=\frac{\sum_{i=1}^{n}\text{excursión}_i}{\#\ \text{de pruebas}}\tag{4}\]}
+
+\textbf{Paso iii — Escalado asintótico.} $F_3$ comprime cualquier $nse$ al rango 0–100:
+\eqbox{\[F_3=\left(\frac{nse}{0.01\,nse+0.01}\right)\tag{5}\]}
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.74\textwidth]{manual_assets/f3_curve.pdf}
+\caption{Función asintótica de $F_3$ (eje horizontal logarítmico). Las constantes $0.01$ son fijas del
+manual: pasarse \emph{un poco} castiga mucho; pasarse \emph{muchísimo} ya casi no cambia el resultado
+(saturación en 100). Esto atenúa la influencia indebida de parámetros con rango de órdenes de magnitud.}
+\end{figure}
+
+\subsection{Índice final — suma vectorial}
+\eqbox{\[\text{CCME WQI}=100-\left(\frac{\sqrt{F_1^{\,2}+F_2^{\,2}+F_3^{\,2}}}{1.732}\right)\tag{6}\]}
+El divisor $1.732\approx\sqrt{3}$ normaliza a 0–100 (el máximo de la raíz es $\sqrt{3\cdot100^2}=173.2$);
+se resta de 100 para que \textbf{más alto = mejor}.
+
+\section{Categorías}
+\begin{center}\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}l l p{9.2cm}@{}}
+\toprule \textbf{Categoría} & \textbf{Rango} & \textbf{Significado} \\ \midrule
+Excelente & 95--100 & Ausencia virtual de amenaza; condiciones casi prístinas. \\
+Buena & 80--94 & Grado menor de amenaza; rara vez se aparta de lo deseable. \\
+Regular & 65--79 & Ocasionalmente amenazada; a veces se aparta de lo deseable. \\
+Marginal & 45--64 & Frecuentemente amenazada o deteriorada. \\
+Mala & 0--44 & Casi siempre amenazada o deteriorada. \\ \bottomrule
+\end{tabular}
+\end{center}
+\begin{warnbox}[Cuidado con las fronteras]
+Los cortes (95, 80, 65, 45) son juicio experto, no ciencia dura. Un sitio cerca de una frontera puede
+cambiar de categoría por una variación mínima; conviene usar juicio profesional.
+\end{warnbox}
+
+\section{Preparación de datos: supuestos y matices}
+\begin{description}[leftmargin=1.3em,style=nextline]
+  \item[No detectados (``$<x$'' o ``L$x$'').] Se usan como observaciones \textbf{en el valor del límite de detección}.
+  \item[Límite de detección $>$ guía.] Se usa el LD como guía (evita falsos positivos con excursiones enormes).
+  \item[Datos faltantes.] Se excluyen del conteo de pruebas.
+  \item[Parámetros sin guía.] No entran en el índice.
+\end{description}
+\begin{center}\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}p{5cm} p{9.6cm}@{}}
+\toprule \textbf{Aspecto} & \textbf{Recomendación} \\ \midrule
+Número de parámetros & Mínimo absoluto 4; \textbf{recomendado 8 a 20}. \\
+Muestras por año & $\sim$10 para ríos; mínimo 4 visitas/año. \\
+Periodo & 1 año para reportar mejoras; $\sim$3 años para estado. \\
+Comparaciones válidas & Solo con \emph{iguales} parámetros, guías, periodos y número de muestras. \\ \bottomrule
+\end{tabular}
+\end{center}
+
+% =================== PARTE II ===================
+\part{La guía (Guidelines)}
+
+\section{Qué es el archivo de guías}
+El archivo \texttt{Guidelines.csv} es la \textbf{tabla de objetivos} contra la cual el índice compara
+cada medición. No forma parte del algoritmo (que solo define \emph{cómo} se combinan los
+incumplimientos); es la pieza que define \emph{qué} se considera un incumplimiento. Cambiar una guía
+cambia el veredicto, por lo que su origen debe documentarse tanto como el cálculo.
+
+\begin{center}\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}p{3.6cm} p{11.4cm}@{}}
+\toprule \textbf{Columna} & \textbf{Significado} \\ \midrule\endhead
+\texttt{PARAMETER\_ID} & Identificador; debe coincidir \textbf{exactamente} con la columna de datos. \\
+\texttt{EXCEED\_IF} & Tipo de regla de incumplimiento (el ``motor''). \\
+\texttt{LOWER/UPPER\_LIMIT} & Umbrales mínimo / máximo. \\
+\texttt{HARDNESS\_LOWER/UPPER} & Rango de dureza (mg/L CaCO$_3$) para escalones. \\
+\texttt{SEASON\_START/FINISH} & Ventana de fechas para reglas estacionales. \\
+\texttt{GUIDELINE\_SOURCE} & Procedencia y versión (trazabilidad). \\
+\texttt{UNIT\_ID} & Unidad del objetivo. \\ \bottomrule
+\end{longtable}
+\end{center}
+
+\section{Los tipos de regla (\texttt{EXCEED\_IF})}
+Cada regla decide (a) si una medición incumple y (b) qué objetivo se usa para la excursión. La
+siguiente tabla es la \textbf{lista exacta de códigos que reconoce el programa oficial}, obtenida por
+ingeniería inversa (\S\ref{sec:ri}), ya mapeados a la lógica de ICA.
+
+\begin{center}\renewcommand{\arraystretch}{1.28}
+\begin{longtable}{@{}p{3.6cm} p{7.6cm} p{3.4cm}@{}}
+\toprule \textbf{Código} & \textbf{Qué hace} & \textbf{Necesita} \\ \midrule\endhead
+\texttt{>} / \texttt{<} / \texttt{<>} & máximo / mínimo / rango & límite(s) \\
+\texttt{Hardness} & escalones por dureza (Plomo) & columna dureza \\
+\texttt{Season} & límite por fecha (Fósforo, Turbidez) & ventanas de fecha \\
+\texttt{COMPUTE} & \textbf{amoníaco no ionizado} (¡no genérico!) & pH + temperatura \\
+\texttt{pHDependCCME} & aluminio por pH & columna pH \\
+\texttt{CdHardness/CuHardness/} & cadmio/cobre/níquel/plomo/zinc & columna dureza \\
+\texttt{NiHardness/PbHardness/ZnHardness} & (fórmulas por dureza) & \\ \bottomrule
+\end{longtable}
+\end{center}
+
+\begin{warnbox}[Hallazgo crítico: \texttt{COMPUTE} = amoníaco, no ``computa lo que sea'']
+En el programa oficial, \texttt{COMPUTE} dispara \emph{específicamente} el cálculo del amoníaco no
+ionizado (a partir de pH y temperatura). \textbf{No} es un ``computa la fórmula que corresponda''
+genérico. Por eso, un archivo de guías que use \texttt{COMPUTE} para cobre, níquel o plomo está
+\textbf{mal}: esos deben usar \texttt{CuHardness}, \texttt{NiHardness}, \texttt{PbHardness}. Es el error
+más común al adaptar guías (véase \S\ref{sec:comparacion}).
+\end{warnbox}
+
+\section{Guías dependientes de la química: fundamento y fórmulas}
+La toxicidad real no siempre depende solo de la concentración.
+
+\subsection{Por qué la dureza importa}
+La dureza (Ca$^{2+}$, Mg$^{2+}$, como mg/L de CaCO$_3$) \textbf{reduce la toxicidad} de muchos metales:
+los cationes compiten con el metal por los sitios de unión en las branquias. Por eso, en aguas duras,
+la guía puede ser más alta sin aumentar el riesgo real.
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.92\textwidth]{manual_assets/hardness_guides.pdf}
+\caption{Guías de metales en función de la dureza. La banda gris marca durezas altas ($>180$ mg/L),
+donde cobre, níquel y plomo alcanzan su techo.}
+\end{figure}
+
+\subsection{Las fórmulas (extraídas del binario oficial y verificadas)}
+\eqbox{
+\textbf{Cadmio:} $H<17\to0.04$; $H>280\to0.37$; si no $10^{\,0.83\log_{10}H-2.46}$ µg/L\\[2pt]
+\textbf{Cobre:} $H<82\to2$; $H>180\to4$; si no $0.2\,e^{\,0.8545\ln H-1.465}$ µg/L\\[2pt]
+\textbf{Níquel:} $H\le60\to25$; $H>180\to150$; si no $e^{\,0.76\ln H+1.06}$ µg/L\\[2pt]
+\textbf{Plomo:} $H<60\to1$; $H>180\to7$; si no $e^{\,1.273\ln H-4.705}$ µg/L\\[2pt]
+\textbf{Zinc:} $H<90\to7.5$; si no $7.5+0.75(H-90)$ µg/L\\[2pt]
+\textbf{Aluminio (pH):} $pH<6.5\to0.005$; si no $0.1$ mg/L\\[2pt]
+\textbf{Amoníaco (fracción no ionizada):} $f=1/\!\left(1+10^{\,0.09018+2729.92/(273.2+T)-pH}\right)$
+}
+
+\section{Cómo se eligen los valores}
+Todos los valores CCME provienen de las \emph{Canadian Water Quality Guidelines for the Protection of
+Aquatic Life}. El procedimiento general: reunir estudios de toxicidad de calidad; identificar el efecto
+sobre la \textbf{especie más sensible}; aplicar un \textbf{factor de seguridad}; distinguir exposición
+crónica (la usada con muestreo mensual) de aguda; y, cuando la biodisponibilidad depende de la química,
+expresar la guía como \textbf{función} de dureza o pH.
+
+\section{Catálogo de parámetros (extracto)}
+\begin{center}\footnotesize\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{@{}p{3.4cm} p{2.7cm} p{1.7cm} p{2cm} p{2.6cm}@{}}
+\toprule \textbf{Parámetro} & \textbf{Guía} & \textbf{Unidad} & \textbf{Regla} & \textbf{Fuente} \\ \midrule\endhead
+Aluminio total & 0.005 / 0.1 (pH) & mg/L & pH & CCME 1987 \\
+Arsénico total & 5 & µg/L & $>$ & CCME 1997 \\
+Cadmio total & fórmula (dureza) & µg/L & dureza & CCME 1996 \\
+Cloruro & 120 & mg/L & $>$ & CCME 2011 \\
+Cobre total & 2 / fórmula / 4 & µg/L & dureza & CCME 1987 \\
+Oxígeno disuelto & 9.5 (mínimo) & mg/L & $<$ & CCME 1999 \\
+Hierro total & 0.3 & mg/L & $>$ & CCME 1987 \\
+Plomo total & 1 / 2 / 4 / 7 & µg/L & dureza & CCME 1987 \\
+Níquel total & 25 / fórmula / 150 & µg/L & dureza & CCME 1987 \\
+Nitrato (como N) & 13 & mg/L & $>$ & CCME 2012 \\
+pH & 6.5 -- 9.0 & --- & $<>$ & CCME 1987 \\
+Fósforo total & 0.03 / 0.02 / 0.03 & mg/L & estación & CCME 2004 \\
+Zinc total & 30 & µg/L & $>$ & CCME 1987 \\ \bottomrule
+\end{longtable}
+\end{center}
+
+% =================== PARTE III ===================
+\part{Ingeniería inversa y validación}
+
+\section{El programa oficial y cómo se verificó ICA}\label{sec:ri}
+Para garantizar que ICA calcula \emph{exactamente} como la herramienta canadiense —y no solo
+``parecido''— se hizo \textbf{ingeniería inversa del programa oficial}.
+
+\begin{keybox}[Qué se analizó]
+El instalador \texttt{WQI.msi} contiene \texttt{CCMEWQI.exe}, una aplicación \textbf{.NET (VB.NET)} del
+\emph{Government of Newfoundland and Labrador}. Se extrajo el ensamblado, se desensambló el código
+intermedio (CIL) y se leyeron las fórmulas reales y la tabla de despacho de reglas.
+\end{keybox}
+
+Hallazgos principales, todos incorporados a ICA:
+\begin{itemize}[leftmargin=1.2em]
+  \item Las \textbf{fórmulas de dureza/pH/amoníaco} (\S8) son las del binario, con sus coeficientes y techos/pisos exactos.
+  \item La \textbf{tabla de despacho} de \texttt{EXCEED\_IF} (\S7) es la lista literal de códigos que el programa reconoce (case-insensitive), con sus métodos dedicados por metal y jurisdicción.
+  \item \texttt{COMPUTE} $=$ amoníaco no ionizado (hallazgo crítico, \S7).
+  \item El programa trae variantes provinciales (Manitoba, Alberta, British Columbia) e intervalos de confianza por \emph{bootstrap}; ICA \textbf{omite a propósito} esas variantes (irrelevantes para México) y, por ahora, los intervalos de confianza.
+\end{itemize}
+
+\section{Comparación de conjuntos de guías}\label{sec:comparacion}
+Se compararon dos archivos de guías: el del \textbf{programa} (formato CCME oficial) y uno propuesto por
+un equipo colaborador. Las diferencias fueron de fondo, no de matiz.
+
+\begin{center}\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{3.6cm} p{5.4cm} p{5.4cm}@{}}
+\toprule & \textbf{Guía del programa (CCME)} & \textbf{Guía propuesta} \\ \midrule
+Enfoque & Toxicidad / vida acuática & Calidad general / iones mayores \\
+Metales por química & Fórmulas por dureza/pH & Eliminadas o \texttt{COMPUTE} sin fórmula \\
+pH & Rango 6.5--9 & Solo $>9$ (no marca agua ácida) \\
+Añadidos & --- & Conductividad, sulfato, fluoruro, sílice, SDT \\ \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{warnbox}[Errores típicos detectados al adaptar guías]
+(1) Usar \texttt{COMPUTE} para metales (es amoníaco). \quad (2) Dejar el pH solo con límite superior,
+perdiendo la detección de agua ácida. \quad (3) Unidades incoherentes (p. ej. etiquetar en µg/L un
+límite en mg/L). \quad (4) Quitar el arsénico —crítico en el contexto geogénico mexicano— mientras se
+conserva el fluoruro.
+\end{warnbox}
+
+\section{Ejemplo validado (WQI = 88)}
+El caso canónico del manual (río North Saskatchewan, Devon, 1997; 10 parámetros, muestreo mensual)
+sirve como \textbf{prueba de fidelidad}: cualquier implementación correcta debe dar \textbf{WQI = 88}.
+
+\begin{okbox}[Datos del ejemplo]
+2 de 10 parámetros fallan (fósforo total y plomo). 4 pruebas fallidas de 103. Excursiones:
+$0.16$; $1.16$; $1.35$; $0.275$.
+\end{okbox}
+
+\[F_1=\tfrac{2}{10}\times100=\mathbf{20}\qquad F_2=\tfrac{4}{103}\times100=\mathbf{3.9}\]
+\[nse=\tfrac{0.16+1.16+1.35+0.275}{103}=0.029\qquad F_3=\tfrac{0.029}{0.01(0.029)+0.01}=\mathbf{2.8}\]
+\[\text{CCME WQI}=100-\frac{\sqrt{20^2+3.9^2+2.8^2}}{1.732}=\mathbf{88}\]
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.7\textwidth]{manual_assets/factors.pdf}
+\caption{Descomposición por factor en dos estaciones reales (agua ácida rica en aluminio): el resultado
+``Mala'' está gobernado por $F_3$ (amplitud), no por la cantidad de parámetros que fallan.}
+\end{figure}
+
+\begin{okbox}[Verificación en la app]
+ICA incluye este dataset como ``ejemplo del manual'' cargable con un clic. En producción reproduce
+exactamente \textbf{WQI = 88}, categoría ``Buena'', con la narrativa: \emph{2 de 10 parámetros
+incumplieron su guía (PB, TP), en 4 de 103 pruebas} —idéntico al manual—.
+\end{okbox}
+
+% =================== PARTE IV ===================
+\part{El sitio ica.endho.mx}
+
+\section{Cómo usar ICA: los cuatro pasos}
+La app organiza el trabajo en un asistente de cuatro pasos, con navegación por pestañas.
+
+\subsection{\texorpdfstring{Paso \ding{192} Guías}{Paso 1 Guias}}
+Elige un punto de partida: un \textbf{preset} (CCME o la plantilla México), \textbf{sube tu propio}
+\texttt{Guidelines} (CSV/Excel) o \textbf{empieza de cero}. Luego edita la tabla, agrega parámetros con
+el asistente (catálogo de DBO, DQO, fluoruro, E.\,coli\dots) y observa la validación en vivo.
+
+\shot{manual_assets/site_guias.png}{0.92\textwidth}
+
+\subsection{\texorpdfstring{Paso \ding{193} Datos}{Paso 2 Datos}}
+Sube tu monitoreo en \textbf{formato ancho} (columnas \texttt{Station}, \texttt{Date}, y una columna por
+parámetro), en CSV o Excel. ICA valida de forma cruzada: emparejamiento de columnas contra la guía,
+dependencias (dureza/pH/temperatura), tipos y rangos, y habilita una compuerta \textbf{``Listo para
+calcular''} cuando no hay errores.
+
+\subsection{\texorpdfstring{Paso \ding{194} Resultados}{Paso 3 Resultados}}
+Por cada estación: un \textbf{medidor} 0–100 con la categoría, una \textbf{narrativa} en español, la
+\textbf{descomposición F1/F2/F3}, la \textbf{tendencia por año} y un \textbf{mapa de calor de
+excedencias} (parámetro × fecha, coloreado por magnitud). Todo exportable a CSV.
+
+\shot{manual_assets/site_resultados.png}{0.82\textwidth}
+
+\subsection{\texorpdfstring{Paso \ding{195} Ayuda}{Paso 4 Ayuda}}
+Un tutorial con el ejemplo del manual cargable con un clic (para comprobar el WQI=88), más la
+explicación del índice, las ecuaciones, las categorías y buenas prácticas.
+
+\section{Formato de datos y de guías}
+\begin{keybox}[Formato ancho de datos]
+Primera columna \texttt{Station}, segunda \texttt{Date} (acepta \texttt{M/D/AAAA}, \texttt{D-Mon-AA} o
+\texttt{AAAA-MM-DD}), y después una columna por parámetro. Los valores bajo el límite de detección se
+escriben como \texttt{<0.01}. Las celdas vacías son datos faltantes.
+\end{keybox}
+El nombre de cada columna de datos debe coincidir \textbf{exactamente} con el \texttt{PARAMETER\_ID} de
+la guía; ICA reporta las columnas sin guía y las guías sin datos.
+
+\section{Autoguardado, proyecto y privacidad}
+\begin{sitebox}[Tu trabajo, tuyo]
+ICA \textbf{autoguarda} el proyecto en tu navegador (sobrevive a recargas) y permite \textbf{exportar/
+importar} un archivo \texttt{.ica.json} con la guía y los datos, para respaldar o compartir. No hay
+cuentas ni servidor: \textbf{ningún dato sale de tu equipo}.
+\end{sitebox}
+
+% =================== PARTE V ===================
+\part{Criterio, estado y referencias}
+
+\section{Ventajas y limitaciones}
+\begin{minipage}[t]{0.49\textwidth}
+\textbf{Ventajas}
+\begin{itemize}[leftmargin=1.1em,nosep]
+  \item Comunica datos complejos en un número.
+  \item Sin ponderaciones arbitrarias.
+  \item Escala-invariante (mezcla µg/L, mg/L, conteos).
+  \item Robusto ante rangos extremos (asíntota de $F_3$).
+  \item Trazable (tres factores interpretables).
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\textbf{Limitaciones}
+\begin{itemize}[leftmargin=1.1em,nosep]
+  \item Pérdida de información (un solo número).
+  \item Sensible a qué parámetros/guías se eligen.
+  \item Fronteras de categoría subjetivas.
+  \item Ciego a eventos transitorios.
+  \item Falsos positivos por LD antiguos.
+\end{itemize}
+\end{minipage}
+
+\section{La guía mexicana: estado provisional y ruta de validación}
+\begin{warnbox}[Importante — leer antes de usar la plantilla México]
+El \textbf{motor} de ICA está validado (reproduce el WQI=88 oficial). En cambio, la \textbf{plantilla
+México} y el \textbf{catálogo del asistente} traen valores \textbf{PROVISIONALES}, marcados como tales,
+que \textbf{deben verificarse} contra la norma vigente antes de usarse como definitivos:
+NOM-127-SSA1-2021 (uso y consumo humano), CE-CCA-001/89 y NOM-001-SEMARNAT-2021 (criterios
+ecológicos/descargas), y OMS.
+\end{warnbox}
+La siguiente etapa del proyecto es de \textbf{criterio científico}, no de código: decidir el uso
+objetivo (potable / vida acuática / tipo CONAGUA), anclar cada valor de parámetro a su norma con la
+fuente citada, y que un experto revise las fórmulas dependientes de dureza/pH. Hecho eso, la plantilla
+mexicana pasaría de provisional a definitiva.
+
+\section{Referencias}
+\begin{itemize}[leftmargin=1.4em,label={}]
+\item CCME. 2017. \emph{Canadian Water Quality Guidelines for the Protection of Aquatic Life: CCME Water Quality Index, User's Manual — 2017 Update.} Winnipeg.
+\item CCME. 2001. \emph{CCME Water Quality Index 1.0, Technical Report.}
+\item Rocchini, R. y L.G. Swain. 1995. \emph{The British Columbia Water Quality Index.}
+\item Wright, C.R. et al. 1999. \emph{A Water Quality Index for Agricultural Streams in Alberta (AAWQI).}
+\item Fichas CCME por sustancia: Cadmio \url{https://ccme.ca/en/chemical/20}; Cobre \url{https://ccme.ca/en/chemical/71}; Níquel \url{https://ccme.ca/en/chemical/139}.
+\item Normas mexicanas de referencia: NOM-127-SSA1-2021; CE-CCA-001/89; NOM-001-SEMARNAT-2021; guías OMS.
+\end{itemize}
+
+\vfill
+\begin{center}\small\color{icagray}
+\rule{0.4\textwidth}{0.4pt}\\[4pt]
+Guía de referencia de \textbf{ICA} · \href{https://ica.endho.mx}{ica.endho.mx}. Las ecuaciones y valores
+de guía son hechos técnicos publicados; las explicaciones, figuras, capturas y el análisis de
+ingeniería inversa son elaboración propia. \today
+\end{center}
+
+\end{document}
