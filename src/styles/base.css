@@ -1,0 +1,119 @@
+/* ============================================================
+   ICA · base — reset mínimo, tipografía, foco y componentes
+   compartidos (botones, chips, tarjeta).
+   ============================================================ */
+
+/* Inter autoalojada (variable, pesos 100–900) — cero CDNs en runtime */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin-wght-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin-ext-wght-normal.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(160deg, var(--bg), var(--bg2)) fixed;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* números tabulares en datos */
+table,
+input,
+select,
+.num {
+  font-feature-settings: 'tnum';
+}
+
+/* foco visible en todos los controles */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- botones ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--r-ctl);
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  transition: filter var(--speed), background var(--speed), color var(--speed), border-color var(--speed);
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-ink);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+.btn-secondary {
+  background: var(--card);
+  color: var(--primary);
+  border: 1px solid var(--line);
+}
+.btn-secondary:hover {
+  border-color: var(--primary);
+}
+.btn-ghost {
+  background: none;
+  color: var(--muted);
+}
+.btn-ghost:hover {
+  color: var(--text);
+}
+
+/* ---------- chips ---------- */
+.chip {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--muted) 14%, transparent);
+  color: var(--muted);
+}
+.chip-ok { background: var(--ok-bg); color: var(--ok); }
+.chip-warn { background: var(--warn-bg); color: var(--warn); }
+.chip-err { background: var(--err-bg); color: var(--err); }
+.chip-cat { background: var(--cat); color: var(--cat-ink); }
+
+/* ---------- tarjeta flotante ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+}
