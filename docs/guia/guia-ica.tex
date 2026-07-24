@@ -324,25 +324,81 @@ sobre la \textbf{especie más sensible}; aplicar un \textbf{factor de seguridad}
 crónica (la usada con muestreo mensual) de aguda; y, cuando la biodisponibilidad depende de la química,
 expresar la guía como \textbf{función} de dureza o pH.
 
-\section{Catálogo de parámetros (extracto)}
-\begin{center}\footnotesize\renewcommand{\arraystretch}{1.18}
-\begin{longtable}{@{}p{3.4cm} p{2.7cm} p{1.7cm} p{2cm} p{2.6cm}@{}}
+\section{Catálogo de parámetros CCME (completo)}
+El preset \textbf{CCME — vida acuática} de ICA trae el conjunto oficial completo. La tabla lista todos
+los parámetros con su guía, unidad, tipo de regla y versión de la fuente. Léela menos como una lista
+para memorizar y más como un \textbf{modelo}: observa cómo el \emph{tipo de regla} y la \emph{magnitud
+del valor} cambian según la naturaleza de cada parámetro.
+
+\begin{center}\footnotesize\renewcommand{\arraystretch}{1.22}
+\begin{longtable}{@{}p{4.0cm} p{3.0cm} p{1.7cm} p{2.5cm} p{2.2cm}@{}}
 \toprule \textbf{Parámetro} & \textbf{Guía} & \textbf{Unidad} & \textbf{Regla} & \textbf{Fuente} \\ \midrule\endhead
-Aluminio total & 0.005 / 0.1 (pH) & mg/L & pH & CCME 1987 \\
+Aluminio total & 0.005 / 0.1 (según pH) & mg/L & pH & CCME 1987 \\
+Amoníaco no ionizado & 0.0152 & mg/L (N) & $>$ & CCME 2001 \\
+Amoníaco total & computa (pH, temp) & mg/L (N) & COMPUTE & CCME 2001 \\
 Arsénico total & 5 & µg/L & $>$ & CCME 1997 \\
 Cadmio total & fórmula (dureza) & µg/L & dureza & CCME 1996 \\
 Cloruro & 120 & mg/L & $>$ & CCME 2011 \\
 Cobre total & 2 / fórmula / 4 & µg/L & dureza & CCME 1987 \\
-Oxígeno disuelto & 9.5 (mínimo) & mg/L & $<$ & CCME 1999 \\
+Cromo (III) & 8.9 & µg/L & $>$ & CCME 1997 \\
+Cromo (VI) & 1 & µg/L & $>$ & CCME 1997 \\
+Fósforo total & 0.03 / 0.02 / 0.03 & mg/L & estación & CCME 2004 \\
 Hierro total & 0.3 & mg/L & $>$ & CCME 1987 \\
-Plomo total & 1 / 2 / 4 / 7 & µg/L & dureza & CCME 1987 \\
+Mercurio inorgánico & 0.026 & µg/L & $>$ & CCME 2003 \\
+Metilmercurio & 0.004 & µg/L & $>$ & CCME 2003 \\
+Molibdeno total & 73 & µg/L & $>$ & CCME 1999 \\
 Níquel total & 25 / fórmula / 150 & µg/L & dureza & CCME 1987 \\
 Nitrato (como N) & 13 & mg/L & $>$ & CCME 2012 \\
+Nitrito (como N) & 0.06 & mg/L & $>$ & CCME 1987 \\
+Nitrógeno total & narrativa & mg/L & $>$ & --- \\
+Oxígeno disuelto & 9.5 (mínimo) & mg/L & $<$ & CCME 1999 \\
 pH & 6.5 -- 9.0 & --- & $<>$ & CCME 1987 \\
-Fósforo total & 0.03 / 0.02 / 0.03 & mg/L & estación & CCME 2004 \\
+Plata total & 0.1 & µg/L & $>$ & CCME 1987 \\
+Plomo total & 1 / 2 / 4 / 7 & µg/L & dureza & CCME 1987 \\
+Selenio total & 1 & µg/L & $>$ & CCME 1987 \\
+Sólidos suspendidos & narrativa & mg/L & estación & CCME 1999 \\
+Talio total & 0.8 & µg/L & $>$ & CCME 1999 \\
+Temperatura & narrativa & °C & $>$ & CCME 1987 \\
+Turbidez & 5 / 10 / 5 & NTU & estación & CCME 1999 \\
+Uranio total & 15 & µg/L & $>$ & CCME 2011 \\
 Zinc total & 30 & µg/L & $>$ & CCME 1987 \\ \bottomrule
 \end{longtable}
 \end{center}
+{\footnotesize Los parámetros \emph{narrativos} (temperatura, sólidos suspendidos, nitrógeno total) no
+tienen un umbral numérico único en el CCME —se expresan como cambio respecto al fondo natural—, por lo
+que ICA los excluye del cálculo salvo que se les asigne un valor operativo.}
+
+\subsection{Cómo leer los valores}
+Los valores no son arbitrarios; siguen patrones que conviene reconocer:
+\begin{itemize}[leftmargin=1.2em]
+  \item \textbf{Metales muy tóxicos y bioacumulables} (Cd, Hg, metilmercurio, Ag, Se, Tl): guías en
+  fracciones de µg/L. El metilmercurio ($0.004$) es más estricto que el mercurio inorgánico ($0.026$)
+  por su mayor bioacumulación.
+  \item \textbf{Metales dependientes de la dureza} (Cu, Ni, Pb, Zn): la guía \emph{crece} con la dureza,
+  porque el calcio y el magnesio compiten con el metal en la branquia y reducen su toxicidad.
+  \item \textbf{Aluminio}: depende del pH —mucho más estricto en agua ácida ($0.005$ vs $0.1$ mg/L)—
+  porque el pH gobierna su especiación.
+  \item \textbf{Iones y nutrientes} (cloruro, nitrato, nitrito, fósforo): guías más altas, en mg/L. El
+  fósforo se maneja por temporada (más estricto en verano, la época de crecimiento de algas).
+  \item \textbf{Soporte físico-químico} (pH como rango, oxígeno disuelto como mínimo, turbidez):
+  definen el hábitat. El oxígeno disuelto es la única guía de ``mínimo''.
+  \item \textbf{Narrativos} (temperatura, sólidos suspendidos): sin número único; se juzgan contra el
+  fondo natural.
+\end{itemize}
+
+\begin{keybox}[Cómo construir tu propia guía — insight práctico]
+\begin{enumerate}[leftmargin=1.3em,nosep]
+  \item \textbf{Decide el uso objetivo} (potable, vida acuática, agrícola/riego). Eso fija qué
+  parámetros incluir y qué límite usar para cada uno; no mezcles usos en la misma guía.
+  \item \textbf{Elige de 8 a 20 parámetros relevantes} al sitio y sus estresores. Evita parámetros muy
+  correlacionados (pH y alcalinidad; turbidez y sólidos suspendidos) para no contar el mismo impacto dos veces.
+  \item \textbf{Prefiere guías crónicas} para muestreo mensual (cada muestra es un instante).
+  \item \textbf{Cita la fuente} (norma y año) en cada fila: la trazabilidad es tan importante como el valor.
+  \item \textbf{Cuida las unidades} y la coherencia dato–guía; si el límite de detección supera la guía, usa el LD como guía.
+  \item \textbf{Considera la química}: para metales, la dureza; para el aluminio, el pH. En agua dura, una guía fija puede ser innecesariamente estricta.
+  \item \textbf{Fondo natural alto} (metales, fluoruro, arsénico geogénico): usa guías sitio-específicas para no marcar como ``mala'' un agua naturalmente así.
+\end{enumerate}
+\end{keybox}
 
 % =================== PARTE III ===================
 \part{Validación y comparación}
