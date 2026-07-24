@@ -19,3 +19,4 @@
 .shell-tab.is-active { color: var(--text); border-bottom-color: var(--accent); font-weight: 600; }
 .shell-tab-n { color: var(--accent2); }
 .shell-placeholder { color: var(--muted); padding: 2rem 0; text-align: center; }
+.shell-privacy { color: var(--muted); font-size: 0.8rem; text-align: center; margin-top: 2rem; }

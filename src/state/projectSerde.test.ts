@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { serializeProject, deserializeProject } from './projectSerde'
 import type { ProjectState } from './projectReducer'
-import type { GuidelineTable, DataRow } from '../engine/types'
+import type { GuidelineTable } from '../engine/types'
 
 const gl: GuidelineTable = new Map([
   ['TP', [{ parameterId: 'TP', ruleType: 'max', lowerLimit: null, upperLimit: 0.05, unit: 'mg/L' }]],

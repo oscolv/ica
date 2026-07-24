@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import { ProjectMenu } from './ProjectMenu'
 import './AppShell.css'
 
 export type StepId = 'guias' | 'datos' | 'resultados' | 'ayuda'
@@ -23,6 +24,7 @@ export function AppShell({ steps = {} }: AppShellProps) {
       <header className="shell-header">
         <span className="shell-brand">ICA</span>
         <span className="shell-title">Índice de Calidad del Agua</span>
+        <ProjectMenu />
       </header>
       <nav className="shell-nav" role="tablist" aria-label="Pasos">
         {STEPS.map((s) => (
@@ -40,6 +42,7 @@ export function AppShell({ steps = {} }: AppShellProps) {
       <main className="shell-main" role="tabpanel">
         {content ?? <p className="shell-placeholder">Este paso estará disponible próximamente.</p>}
       </main>
+      <p className="shell-privacy">Tus datos se procesan y se guardan solo en tu navegador; nada se sube a ningún servidor.</p>
     </div>
   )
 }
