@@ -1,0 +1,6 @@
+.trend { margin-top: 0.5rem; }
+.trend-empty { color: var(--muted); }
+.trend-tick { fill: var(--muted); font-size: 11px; }
+.trend-legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted); }
+.trend-leg { display: inline-flex; align-items: center; gap: 0.35rem; }
+.trend-leg i { width: 0.8rem; height: 0.35rem; border-radius: 2px; display: inline-block; }
