@@ -1,0 +1,19 @@
+PARAMETER_ID,EXCEED_IF,LOWER_LIMIT,UPPER_LIMIT,HARDNESS_LOWER,HARDNESS_UPPER,SEASON_START,SEASON_FINISH,GUIDELINE_SOURCE,UNIT_ID
+PH,<>,6.5,8.5,,,,,NOM-127-SSA1-2021 (provisional),
+DISSOLVED_OXYGEN_mgL,<,5,,,,,,CE-CCA-001/89 (provisional),mg/L
+BOD5_mgL,>,,30,,,,,NOM-001-SEMARNAT-2021 (provisional),mg/L
+COD_mgL,>,,40,,,,,Referencia general (provisional),mg/L
+TOTAL_DISSOLVED_SOLIDS_mgL,>,,1000,,,,,NOM-127-SSA1-2021 (provisional),mg/L
+CHLORIDE_mgL,>,,250,,,,,NOM-127-SSA1-2021 (provisional),mg/L
+SULPHATE_mgL,>,,400,,,,,NOM-127-SSA1-2021 (provisional),mg/L
+FLUORIDE_mgL,>,,1.5,,,,,NOM-127-SSA1-2021 / OMS (provisional),mg/L
+NITRATE_mgLasN,>,,11,,,,,NOM-127-SSA1-2021 (provisional),mg/L
+TOTAL_PHOSPHORUS_mgL,>,,0.05,,,,,Referencia general (provisional),mg/L
+ARSENIC_TOTAL_ugL,>,,10,,,,,NOM-127-SSA1-2021 / OMS (provisional),ug/L
+CADMIUM_TOTAL_ugL,>,,5,,,,,NOM-127-SSA1-2021 (provisional),ug/L
+LEAD_TOTAL_ugL,>,,10,,,,,NOM-127-SSA1-2021 / OMS (provisional),ug/L
+MERCURY_TOTAL_ugL,>,,6,,,,,NOM-127-SSA1-2021 (provisional),ug/L
+CHROMIUM_TOTAL_ugL,>,,50,,,,,NOM-127-SSA1-2021 / OMS (provisional),ug/L
+FECAL_COLIFORM_NMP100mL,>,,1000,,,,,CE-CCA-001/89 (provisional),NMP/100mL
+E_COLI_NMP100mL,>,,0,,,,,NOM-127-SSA1-2021 (provisional),NMP/100mL
+TURBIDITY_NTU,>,,5,,,,,NOM-127-SSA1-2021 (provisional),NTU
