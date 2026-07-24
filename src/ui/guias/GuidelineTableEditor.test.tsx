@@ -51,4 +51,10 @@ describe('GuidelineTableEditor', () => {
     await userEvent.type(input, '0.05')
     expect((input as HTMLInputElement).value).toBe('0.05')
   })
+  it('desactiva el límite que no aplica al tipo de regla', async () => {
+    await setup()
+    const na = document.querySelector('.gte input.is-na') as HTMLInputElement
+    expect(na).toBeDisabled()
+    expect(screen.getByDisplayValue('5')).toBeEnabled()
+  })
 })

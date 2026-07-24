@@ -1,9 +1,47 @@
-.apf { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
-.apf-row { margin-bottom: 0.75rem; }
-.apf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.6rem; }
-.apf label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; color: var(--muted); }
-.apf input, .apf select { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 0.4rem 0.5rem; font: inherit; }
-.apf-error { color: #c0392b; font-size: 0.9rem; margin: 0.75rem 0 0; }
-.apf-actions { display: flex; gap: 0.5rem; margin-top: 0.9rem; }
-.apf-btn { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 0.5rem 0.9rem; cursor: pointer; font: inherit; font-weight: 600; }
-.apf-ghost { background: none; color: var(--muted); border: 1px solid var(--line); }
+.apf {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.apf-row {
+  margin-bottom: 0.75rem;
+}
+.apf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.6rem;
+}
+.apf label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.apf input,
+.apf select {
+  font: inherit;
+  background: var(--field);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.4rem 0.5rem;
+}
+.apf input:hover,
+.apf select:hover {
+  border-color: var(--primary);
+}
+.apf-error {
+  color: var(--err);
+  font-size: 0.9rem;
+  margin: 0.75rem 0 0;
+}
+.apf-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}

@@ -84,8 +84,8 @@ export function AddParameterForm({ onDone }: { onDone: () => void }) {
       </div>
       {error && <p className="apf-error" role="alert">{error}</p>}
       <div className="apf-actions">
-        <button className="apf-btn" onClick={submit}>Agregar</button>
-        <button className="apf-btn apf-ghost" onClick={onDone}>Cancelar</button>
+        <button className="btn btn-primary" onClick={submit}>Agregar</button>
+        <button className="btn btn-ghost" onClick={onDone}>Cancelar</button>
       </div>
     </div>
   )

@@ -32,8 +32,8 @@ export function GuiasModule() {
       <div className="guias-bar">
         <h2>{state.guidelineName || 'Guía'}</h2>
         <div className="guias-actions">
-          <button className="btn" onClick={() => setShowAdd((v) => !v)}>Agregar parámetro</button>
-          <button className="btn" onClick={download}>Descargar CSV</button>
+          <button className="btn btn-primary" onClick={() => setShowAdd((v) => !v)}>Agregar parámetro</button>
+          <button className="btn btn-secondary" onClick={download}>Descargar CSV</button>
           <button className="btn btn-ghost" onClick={() => dispatch({ type: 'clear' })}>Cambiar guía</button>
         </div>
       </div>

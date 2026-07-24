@@ -13,7 +13,15 @@ function numOrNull(v: string): number | null {
   return Number.isFinite(n) ? n : null
 }
 
-function NumberCell({ value, onCommit }: { value: number | null; onCommit: (v: number | null) => void }) {
+function NumberCell({
+  value,
+  onCommit,
+  disabled,
+}: {
+  value: number | null
+  onCommit: (v: number | null) => void
+  disabled?: boolean
+}) {
   const [text, setText] = useState(value == null ? '' : String(value))
   useEffect(() => {
     setText(value == null ? '' : String(value))
@@ -22,6 +30,9 @@ function NumberCell({ value, onCommit }: { value: number | null; onCommit: (v: n
     <input
       value={text}
       inputMode="decimal"
+      disabled={disabled}
+      className={disabled ? 'is-na' : undefined}
+      placeholder={disabled ? '—' : undefined}
       onChange={(e) => setText(e.target.value)}
       onBlur={() => onCommit(numOrNull(text))}
     />
@@ -59,10 +70,18 @@ export function GuidelineTableEditor() {
                   </select>
                 </td>
                 <td>
-                  <NumberCell value={r.lowerLimit} onCommit={(v) => dispatch({ type: 'setRow', parameterId: paramId, index: i, patch: { lowerLimit: v } })} />
+                  <NumberCell
+                    value={r.lowerLimit}
+                    disabled={r.ruleType === 'max'}
+                    onCommit={(v) => dispatch({ type: 'setRow', parameterId: paramId, index: i, patch: { lowerLimit: v } })}
+                  />
                 </td>
                 <td>
-                  <NumberCell value={r.upperLimit} onCommit={(v) => dispatch({ type: 'setRow', parameterId: paramId, index: i, patch: { upperLimit: v } })} />
+                  <NumberCell
+                    value={r.upperLimit}
+                    disabled={r.ruleType === 'min'}
+                    onCommit={(v) => dispatch({ type: 'setRow', parameterId: paramId, index: i, patch: { upperLimit: v } })}
+                  />
                 </td>
                 <td>
                   <input value={r.unit ?? ''} onChange={(e) => dispatch({ type: 'setRow', parameterId: paramId, index: i, patch: { unit: e.target.value } })} />
