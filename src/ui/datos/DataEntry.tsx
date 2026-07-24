@@ -17,12 +17,17 @@ export function DataEntry() {
       const csv = isExcel ? workbookToCsv(await file.arrayBuffer()) : await file.text()
       const { rows, columns, issues } = parseDataCsv(csv)
       if (issues.some((i) => i.row === 1)) {
-        throw new Error('estructura inválida: no se encontraron las columnas Station/Date')
+        setError('El archivo no tiene las columnas requeridas Station y Date (formato ancho).')
+        return
+      }
+      if (rows.length === 0) {
+        setError('El archivo no contiene filas de datos.')
+        return
       }
       dispatch({ type: 'loadData', rows, columns, name: file.name })
       setError(null)
     } catch {
-      setError('No se pudo leer el archivo. Verifica que sea un CSV o Excel (.xlsx) válido en formato ancho.')
+      setError('No se pudo leer el archivo. Verifica que sea un CSV o Excel (.xlsx) válido.')
     } finally {
       e.target.value = ''
     }

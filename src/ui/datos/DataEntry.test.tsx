@@ -36,4 +36,21 @@ describe('DataEntry', () => {
     await userEvent.upload(input, bad)
     expect(await screen.findByRole('alert')).toBeInTheDocument()
   })
+  it('rechaza un archivo con cabeceras pero sin filas de datos', async () => {
+    setup()
+    const csv = 'Station,Date,DO\n'
+    const file = new File([csv], 'vacio.csv', { type: 'text/csv' })
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement
+    await userEvent.upload(input, file)
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
+    expect(screen.getByTestId('probe').textContent).toBe('sin-datos')
+  })
+  it('avisa específicamente cuando faltan las columnas Station/Date', async () => {
+    setup()
+    const csv = 'Foo,Bar,DO\nx,y,7\n'
+    const file = new File([csv], 'malo.csv', { type: 'text/csv' })
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement
+    await userEvent.upload(input, file)
+    expect(await screen.findByText(/columnas requeridas Station y Date/i)).toBeInTheDocument()
+  })
 })
