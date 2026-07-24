@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ProjectProvider, useProject } from '../../state/ProjectContext'
+import { StepNavContext } from '../stepNav'
 import { DataValidationPanel } from './DataValidationPanel'
 import type { GuidelineTable, DataRow } from '../../engine/types'
 
@@ -38,5 +39,22 @@ describe('DataValidationPanel', () => {
     const t: GuidelineTable = new Map([['CU', [{ parameterId: 'CU', ruleType: 'cuHardness', lowerLimit: null, upperLimit: null, unit: 'ug/L' }]]])
     await setup({ table: t, rows: [{ station: 'S1', date: null, values: { CU: '5' } }], columns: ['CU'] })
     expect(screen.getByText(/corrige los errores/i)).toBeInTheDocument()
+  })
+  it('el botón «Ir a Resultados» navega al paso ③', async () => {
+    const goTo = vi.fn()
+    const t: GuidelineTable = new Map([
+      ['DO', [{ parameterId: 'DO', ruleType: 'min', lowerLimit: 5, upperLimit: null, unit: 'mg/L' }]],
+    ])
+    render(
+      <ProjectProvider>
+        <StepNavContext.Provider value={goTo}>
+          <Seed table={t} rows={[{ station: 'S1', date: null, values: { DO: '7' } }]} columns={['DO']} />
+          <DataValidationPanel />
+        </StepNavContext.Provider>
+      </ProjectProvider>,
+    )
+    await userEvent.click(screen.getByText('seed'))
+    await userEvent.click(screen.getByRole('button', { name: /ir a resultados/i }))
+    expect(goTo).toHaveBeenCalledWith('resultados')
   })
 })

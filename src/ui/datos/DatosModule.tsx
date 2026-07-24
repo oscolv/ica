@@ -13,7 +13,7 @@ export function DatosModule() {
     <section className="datos">
       <div className="datos-bar">
         <h2>{state.dataName || 'Datos'} · {state.data.length} filas</h2>
-        <button className="dbtn-ghost" onClick={() => dispatch({ type: 'clearData' })}>Cambiar datos</button>
+        <button className="btn btn-ghost" onClick={() => dispatch({ type: 'clearData' })}>Cambiar datos</button>
       </div>
       <DataValidationPanel />
       <DataPreview />

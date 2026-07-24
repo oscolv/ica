@@ -1,5 +1,41 @@
-.dprev-wrap { overflow-x: auto; margin-top: 1rem; }
-.dprev { border-collapse: collapse; font-size: 0.88rem; white-space: nowrap; }
-.dprev th { text-align: left; color: var(--muted); font-weight: 600; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--line); }
-.dprev td { padding: 0.3rem 0.6rem; border-bottom: 1px solid var(--line); }
-.dprev-more { color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem; }
+.dprev-wrap {
+  overflow-x: auto;
+  margin-top: 1rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+}
+.dprev {
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.dprev th {
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: color-mix(in srgb, var(--card) 60%, var(--bg));
+}
+.dprev td {
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+}
+.dprev-cens {
+  background: color-mix(in srgb, var(--muted) 14%, transparent);
+  border-radius: 6px;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.dprev-more {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+}

@@ -24,7 +24,11 @@ export function DataPreview() {
             <tr key={i}>
               <td>{r.station}</td>
               <td>{r.date ? r.date.toLocaleDateString() : ''}</td>
-              {state.dataColumns.map((c) => <td key={c}>{r.values[c] ?? ''}</td>)}
+              {state.dataColumns.map((c) => {
+                const v = r.values[c] ?? ''
+                const censored = /^[L<]/.test(v.trim())
+                return <td key={c}>{censored ? <span className="dprev-cens">{v}</span> : v}</td>
+              })}
             </tr>
           ))}
         </tbody>
