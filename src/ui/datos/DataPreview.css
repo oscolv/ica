@@ -1,0 +1,5 @@
+.dprev-wrap { overflow-x: auto; margin-top: 1rem; }
+.dprev { border-collapse: collapse; font-size: 0.88rem; white-space: nowrap; }
+.dprev th { text-align: left; color: var(--muted); font-weight: 600; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--line); }
+.dprev td { padding: 0.3rem 0.6rem; border-bottom: 1px solid var(--line); }
+.dprev-more { color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem; }
