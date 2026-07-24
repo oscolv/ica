@@ -23,7 +23,7 @@ export function AyudaModule() {
           Carga el ejemplo del manual (río North Saskatchewan, 1997) para probar ICA en un clic.
           Luego ve al paso <strong>③ Resultados</strong>: debe dar <strong>WQI = 88</strong> (categoría «Buena»).
         </p>
-        <button className="ayuda-btn" onClick={cargarEjemplo}>Cargar ejemplo</button>
+        <button className="btn btn-primary" onClick={cargarEjemplo}>Cargar ejemplo</button>
         {loaded && (
           <p className="ayuda-ok" role="status">
             ✅ Ejemplo cargado. Ve al paso ③ Resultados para ver el WQI = 88.
@@ -35,7 +35,7 @@ export function AyudaModule() {
           📄 <strong>Guía de referencia completa</strong> — el algoritmo y sus ecuaciones, la
           documentación de las guías y sus tipos de regla, el ejemplo validado y cómo usar el sitio.
         </span>
-        <a className="ayuda-btn ayuda-download" href="/guia-ica.pdf" download="guia-ica.pdf">
+        <a className="btn btn-secondary ayuda-download" href="/guia-ica.pdf" download="guia-ica.pdf">
           ⬇ Descargar la guía (PDF)
         </a>
       </div>

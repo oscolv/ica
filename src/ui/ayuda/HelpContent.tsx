@@ -41,11 +41,11 @@ export function HelpContent() {
         <h3>Categorías</h3>
         <table className="help-cats">
           <tbody>
-            <tr><td>Excelente</td><td>95–100</td></tr>
-            <tr><td>Buena</td><td>80–94</td></tr>
-            <tr><td>Regular</td><td>65–79</td></tr>
-            <tr><td>Marginal</td><td>45–64</td></tr>
-            <tr><td>Mala</td><td>0–44</td></tr>
+            <tr><td><span className="chip chip-cat cat-excelente">Excelente</span></td><td>95–100</td></tr>
+            <tr><td><span className="chip chip-cat cat-buena">Buena</span></td><td>80–94</td></tr>
+            <tr><td><span className="chip chip-cat cat-regular">Regular</span></td><td>65–79</td></tr>
+            <tr><td><span className="chip chip-cat cat-marginal">Marginal</span></td><td>45–64</td></tr>
+            <tr><td><span className="chip chip-cat cat-mala">Mala</span></td><td>0–44</td></tr>
           </tbody>
         </table>
       </section>
@@ -71,9 +71,18 @@ export function HelpContent() {
 
       <section>
         <h3>Preguntas frecuentes</h3>
-        <p><strong>¿Mis datos se suben a algún servidor?</strong> No. Todo el cálculo ocurre en tu navegador; nada sale de tu equipo.</p>
-        <p><strong>¿Qué hago con valores bajo el límite de detección?</strong> Escríbelos como <code>&lt;0.01</code>; se usan como el valor del límite.</p>
-        <p><strong>¿Por qué un parámetro no aparece en el cálculo?</strong> Porque no tiene guía, o su nombre no empata con ninguna columna de datos.</p>
+        <details>
+          <summary>¿Mis datos se suben a algún servidor?</summary>
+          <p>No. Todo el cálculo ocurre en tu navegador; nada sale de tu equipo.</p>
+        </details>
+        <details>
+          <summary>¿Qué hago con valores bajo el límite de detección?</summary>
+          <p>Escríbelos como <code>&lt;0.01</code>; se usan como el valor del límite.</p>
+        </details>
+        <details>
+          <summary>¿Por qué un parámetro no aparece en el cálculo?</summary>
+          <p>Porque no tiene guía, o su nombre no empata con ninguna columna de datos.</p>
+        </details>
       </section>
     </div>
   )
