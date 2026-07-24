@@ -1,0 +1,10 @@
+.guias-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.guias-bar h2 { font-size: 1.2rem; margin: 0; }
+.guias-actions { display: flex; gap: 0.5rem; }
+.btn {
+  background: var(--accent); color: #fff; border: none; border-radius: 8px;
+  padding: 0.5rem 0.9rem; cursor: pointer; font: inherit; font-weight: 600;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn-ghost { background: none; color: var(--muted); border: 1px solid var(--line); }
+.btn-ghost:hover { color: var(--text); filter: none; }

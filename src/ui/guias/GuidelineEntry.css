@@ -1,0 +1,11 @@
+.entry h2 { font-size: 1.25rem; margin: 0 0 1rem; }
+.entry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; }
+.entry-card {
+  text-align: left; background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 1.1rem; cursor: pointer; display: flex;
+  flex-direction: column; gap: 0.4rem; color: var(--text);
+}
+.entry-card:hover { border-color: var(--accent); }
+.entry-card strong { font-size: 1.05rem; }
+.entry-card span { color: var(--muted); font-size: 0.9rem; line-height: 1.4; }
+.entry-error { color: var(--ccred, #c0392b); margin-top: 0.75rem; font-size: 0.9rem; }
