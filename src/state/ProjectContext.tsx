@@ -1,5 +1,6 @@
-import { createContext, useContext, useReducer, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useReducer, type ReactNode } from 'react'
 import { projectReducer, initialState, type ProjectState, type ProjectAction } from './projectReducer'
+import { loadFromStorage, saveToStorage } from './projectStorage'
 
 interface ProjectContextValue {
   state: ProjectState
@@ -9,7 +10,12 @@ interface ProjectContextValue {
 const ProjectContext = createContext<ProjectContextValue | null>(null)
 
 export function ProjectProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(projectReducer, initialState)
+  const [state, dispatch] = useReducer(projectReducer, null, () => loadFromStorage() ?? initialState)
+
+  useEffect(() => {
+    saveToStorage(state)
+  }, [state])
+
   return <ProjectContext.Provider value={{ state, dispatch }}>{children}</ProjectContext.Provider>
 }
 

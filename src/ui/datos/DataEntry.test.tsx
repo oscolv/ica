@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ProjectProvider, useProject } from '../../state/ProjectContext'
@@ -19,6 +19,8 @@ function setup() {
 }
 
 describe('DataEntry', () => {
+  beforeEach(() => localStorage.clear())
+
   it('carga un CSV de datos y lo guarda en el estado', async () => {
     setup()
     const csv = 'Station,Date,DO\nS1,2020-01-01,7\nS1,2020-02-01,6\n'

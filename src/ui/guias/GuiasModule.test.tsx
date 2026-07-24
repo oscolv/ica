@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ProjectProvider } from '../../state/ProjectContext'
@@ -13,6 +13,8 @@ function setup() {
 }
 
 describe('GuiasModule', () => {
+  beforeEach(() => localStorage.clear())
+
   it('muestra la entrada cuando no hay guía', () => {
     setup()
     expect(screen.getByText(/punto de partida/i)).toBeInTheDocument()
