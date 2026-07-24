@@ -2,7 +2,6 @@ import type { YearlyWqi } from '../../results/yearly'
 import './TrendChart.css'
 
 const W = 520, H = 220, PAD = 34
-const COLORS = ['#1f4e79', '#c0392b', '#1e8449', '#8e44ad', '#e67e22', '#0e7490']
 
 export function TrendChart({ data }: { data: YearlyWqi[] }) {
   const years = [...new Set(data.map((d) => d.year))].sort((a, b) => a - b)
@@ -30,18 +29,17 @@ export function TrendChart({ data }: { data: YearlyWqi[] }) {
         {stations.map((st, i) => {
           const stPts = data.filter((d) => d.station === st).sort((a, b) => a.year - b.year)
           const pts = stPts.map((d) => `${x(d.year)},${y(d.wqi)}`).join(' ')
-          const color = COLORS[i % COLORS.length]
           return (
-            <g key={st}>
-              <polyline points={pts} fill="none" stroke={color} strokeWidth="2" />
-              {stPts.map((d) => <circle key={d.year} cx={x(d.year)} cy={y(d.wqi)} r="3" fill={color} />)}
+            <g key={st} className={`series-${(i % 6) + 1}`}>
+              <polyline points={pts} fill="none" strokeWidth="2" />
+              {stPts.map((d) => <circle key={d.year} cx={x(d.year)} cy={y(d.wqi)} r="3" />)}
             </g>
           )
         })}
       </svg>
       <div className="trend-legend">
         {stations.map((st, i) => (
-          <span key={st} className="trend-leg"><i style={{ background: COLORS[i % COLORS.length] }} />{st}</span>
+          <span key={st} className={`trend-leg series-${(i % 6) + 1}`}><i />{st}</span>
         ))}
       </div>
     </div>

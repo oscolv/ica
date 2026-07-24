@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { categoryLabelEs, categoryColor } from './categoryInfo'
+import { categoryLabelEs, categoryClass } from './categoryInfo'
 
 describe('categoryInfo', () => {
   it('traduce las categorías al español', () => {
@@ -9,8 +9,11 @@ describe('categoryInfo', () => {
     expect(categoryLabelEs('Marginal')).toBe('Marginal')
     expect(categoryLabelEs('Poor')).toBe('Mala')
   })
-  it('asigna un color por categoría', () => {
-    expect(categoryColor('Excellent')).toBe('#1E8449')
-    expect(categoryColor('Poor')).toBe('#C0392B')
+  it('asigna la clase CSS de cada categoría', () => {
+    expect(categoryClass('Excellent')).toBe('cat-excelente')
+    expect(categoryClass('Good')).toBe('cat-buena')
+    expect(categoryClass('Fair')).toBe('cat-regular')
+    expect(categoryClass('Marginal')).toBe('cat-marginal')
+    expect(categoryClass('Poor')).toBe('cat-mala')
   })
 })

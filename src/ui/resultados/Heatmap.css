@@ -1,16 +1,65 @@
-.hm { margin-top: 0.5rem; }
-.hm-scroll { overflow-x: auto; }
-.hm-table { border-collapse: collapse; }
-.hm-date { font-size: 0.7rem; color: var(--muted); font-weight: 500; padding: 0 2px; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
-.hm-param { text-align: right; font-size: 0.8rem; color: var(--text); font-weight: 600; padding-right: 0.5rem; white-space: nowrap; }
-.hm-cell { width: 16px; height: 16px; border: 1px solid var(--bg); }
-.band-pass { background: #1e8449; }
-.band-lt10 { background: #9aa0a6; }
-.band-x10to25 { background: #f1c40f; }
-.band-gt25 { background: #c0392b; }
-.band-na { background: transparent; }
-.hm-legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.6rem; font-size: 0.82rem; color: var(--muted); }
-.hm-legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
-.hm-legend i { width: 0.8rem; height: 0.8rem; border-radius: 3px; display: inline-block; }
-.hm-station { margin-bottom: 1rem; }
-.hm-station-name { font-weight: 600; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.3rem; }
+.hm {
+  margin-top: 0.5rem;
+}
+.hm-scroll {
+  overflow-x: auto;
+}
+.hm-table {
+  border-collapse: separate;
+  border-spacing: 2px;
+}
+.hm-date {
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-weight: 500;
+  padding: 0 2px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+.hm-param {
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--text);
+  font-weight: 600;
+  padding-right: 0.5rem;
+  white-space: nowrap;
+}
+.hm-cell {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+.band-pass { background: var(--cat-buena); }
+.band-lt10 { background: color-mix(in srgb, var(--muted) 55%, transparent); }
+.band-x10to25 { background: var(--cat-regular); }
+.band-gt25 { background: var(--cat-mala); }
+.band-na { background: color-mix(in srgb, var(--line) 35%, transparent); }
+.hm-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.hm-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.hm-legend i {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+.hm-station {
+  margin-bottom: 1rem;
+}
+.hm-station-name {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}

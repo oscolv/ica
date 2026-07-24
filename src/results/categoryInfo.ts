@@ -8,12 +8,12 @@ export function categoryLabelEs(category: string): string {
   }
 }
 
-export function categoryColor(category: string): string {
+export function categoryClass(category: string): string {
   switch (category) {
-    case 'Excellent': return '#1E8449'
-    case 'Good': return '#27AE60'
-    case 'Fair': return '#F1C40F'
-    case 'Marginal': return '#E67E22'
-    default: return '#C0392B' // Poor
+    case 'Excellent': return 'cat-excelente'
+    case 'Good': return 'cat-buena'
+    case 'Fair': return 'cat-regular'
+    case 'Marginal': return 'cat-marginal'
+    default: return 'cat-mala' // Poor
   }
 }

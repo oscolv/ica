@@ -1,6 +1,42 @@
-.trend { margin-top: 0.5rem; }
-.trend-empty { color: var(--muted); }
-.trend-tick { fill: var(--muted); font-size: 11px; }
-.trend-legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted); }
-.trend-leg { display: inline-flex; align-items: center; gap: 0.35rem; }
-.trend-leg i { width: 0.8rem; height: 0.35rem; border-radius: 2px; display: inline-block; }
+.trend {
+  margin-top: 0.5rem;
+}
+.trend polyline {
+  stroke: currentColor;
+}
+.trend circle {
+  fill: currentColor;
+}
+.trend-tick {
+  fill: var(--muted);
+  font-size: 0.7rem;
+}
+.trend-empty {
+  color: var(--muted);
+}
+.trend-legend {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+.trend-leg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.trend-leg i {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 3px;
+  display: inline-block;
+  background: currentColor;
+}
+.series-1 { color: var(--series-1); }
+.series-2 { color: var(--series-2); }
+.series-3 { color: var(--series-3); }
+.series-4 { color: var(--series-4); }
+.series-5 { color: var(--series-5); }
+.series-6 { color: var(--series-6); }

@@ -1,9 +1,45 @@
 .gcard {
-  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-  padding: 1.2rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
 }
-.gcard-station { margin: 0; font-size: 1.05rem; color: var(--muted); font-weight: 600; }
-.gcard-gauge { line-height: 0; }
-.gcard-value { font-size: 2rem; font-weight: 800; }
-.gcard-cat { font-size: 1.25rem; font-weight: 700; margin-top: -0.5rem; }
-.gcard-narrative { color: var(--muted); font-size: 0.9rem; line-height: 1.5; margin: 0.4rem 0 0; text-align: left; }
+.gcard-station {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.gcard-gauge {
+  line-height: 0;
+}
+.garc-track {
+  stroke: color-mix(in srgb, var(--line) 70%, transparent);
+}
+.garc-prog {
+  transition: stroke-dashoffset 0.7s ease-out;
+}
+.gstop-a {
+  stop-color: var(--cat);
+}
+.gstop-b {
+  stop-color: var(--cat);
+  stop-opacity: 0.55;
+}
+.gcard-value {
+  font-size: 2.1rem;
+  font-weight: 800;
+  fill: var(--cat);
+}
+.gcard-cat {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.gcard-narrative {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  max-width: 38ch;
+  margin: 0.5rem auto 0;
+}

@@ -49,7 +49,7 @@ export function ResultadosModule() {
     <section className="resultados">
       <div className="res-bar">
         <h2>Resultados del WQI</h2>
-        <button className="res-btn" onClick={download}>Descargar CSV</button>
+        <button className="btn btn-primary" onClick={download}>Descargar CSV</button>
       </div>
       <div className="res-grid">
         {results.map((r) => (
