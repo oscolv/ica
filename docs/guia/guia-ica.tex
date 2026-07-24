@@ -273,16 +273,15 @@ Cada regla decide (a) si una medición incumple y (b) qué objetivo se usa para 
 siguiente tabla resume los \textbf{tipos de regla que ICA soporta}, compatibles con el formato de
 guías del CCME.
 
-\begin{center}\renewcommand{\arraystretch}{1.28}
-\begin{longtable}{@{}p{3.6cm} p{7.6cm} p{3.4cm}@{}}
+\begin{center}\renewcommand{\arraystretch}{1.35}
+\begin{longtable}{@{}p{4.6cm} p{6.6cm} p{3.0cm}@{}}
 \toprule \textbf{Código} & \textbf{Qué hace} & \textbf{Necesita} \\ \midrule\endhead
 \texttt{>} / \texttt{<} / \texttt{<>} & máximo / mínimo / rango & límite(s) \\
 \texttt{Hardness} & escalones por dureza (Plomo) & columna dureza \\
 \texttt{Season} & límite por fecha (Fósforo, Turbidez) & ventanas de fecha \\
 \texttt{COMPUTE} & \textbf{amoníaco no ionizado} (¡no genérico!) & pH + temperatura \\
 \texttt{pHDependCCME} & aluminio por pH & columna pH \\
-\texttt{CdHardness/CuHardness/} & cadmio/cobre/níquel/plomo/zinc & columna dureza \\
-\texttt{NiHardness/PbHardness/ZnHardness} & (fórmulas por dureza) & \\ \bottomrule
+\texttt{CdHardness}, \texttt{CuHardness}, \texttt{NiHardness}, \texttt{PbHardness}, \texttt{ZnHardness} & fórmulas por dureza (cadmio, cobre, níquel, plomo, zinc) & columna dureza \\ \bottomrule
 \end{longtable}
 \end{center}
 
