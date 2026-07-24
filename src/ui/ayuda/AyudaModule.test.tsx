@@ -30,4 +30,12 @@ describe('AyudaModule', () => {
     expect(screen.getByTestId('probe').textContent).toBe('10:12')
     expect(screen.getByText(/ejemplo cargado/i)).toBeInTheDocument()
   })
+
+  it('ofrece un botón para descargar la guía en PDF', () => {
+    setup()
+    const link = screen.getByRole('link', { name: /descargar la guía/i })
+    expect(link).toHaveAttribute('href', '/guia-ica.pdf')
+    expect(link).toHaveAttribute('download')
+  })
+
 })

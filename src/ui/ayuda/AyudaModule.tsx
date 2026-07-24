@@ -35,7 +35,9 @@ export function AyudaModule() {
           📄 <strong>Guía de referencia completa</strong> — el algoritmo y sus ecuaciones, la
           documentación de las guías y sus tipos de regla, el ejemplo validado y cómo usar el sitio.
         </span>
-        <a className="ayuda-btn" href="/guia-ica.pdf" target="_blank" rel="noopener">Descargar PDF</a>
+        <a className="ayuda-btn ayuda-download" href="/guia-ica.pdf" download="guia-ica.pdf">
+          ⬇ Descargar la guía (PDF)
+        </a>
       </div>
       <HelpContent />
     </section>
