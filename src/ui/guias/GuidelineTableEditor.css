@@ -1,0 +1,12 @@
+.gte-wrap { overflow-x: auto; }
+.gte { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.gte th { text-align: left; color: var(--muted); font-weight: 600; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.gte td { padding: 0.3rem 0.4rem; border-bottom: 1px solid var(--line); }
+.gte input, .gte select {
+  width: 100%; min-width: 5rem; background: var(--card); color: var(--text);
+  border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.5rem; font: inherit;
+}
+.gte input:focus, .gte select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.gte-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1rem; }
+.gte-del:hover { color: var(--accent2); }
+.gte-empty { color: var(--muted); padding: 1rem 0; }
