@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useProject } from '../../state/ProjectContext'
-import { PARAM_CATALOG, catalogToRow } from './paramCatalog'
+import { PARAM_CATALOG } from './paramCatalog'
 import { RULE_LABELS } from './ruleLabels'
 import type { RuleType, GuidelineRow } from '../../engine/types'
 import './AddParameterForm.css'
