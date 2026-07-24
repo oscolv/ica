@@ -28,9 +28,15 @@ export function TrendChart({ data }: { data: YearlyWqi[] }) {
           <text key={yr} x={x(yr)} y={H - PAD + 16} textAnchor="middle" className="trend-tick">{yr}</text>
         ))}
         {stations.map((st, i) => {
-          const pts = data.filter((d) => d.station === st).sort((a, b) => a.year - b.year)
-            .map((d) => `${x(d.year)},${y(d.wqi)}`).join(' ')
-          return <polyline key={st} points={pts} fill="none" stroke={COLORS[i % COLORS.length]} strokeWidth="2" />
+          const stPts = data.filter((d) => d.station === st).sort((a, b) => a.year - b.year)
+          const pts = stPts.map((d) => `${x(d.year)},${y(d.wqi)}`).join(' ')
+          const color = COLORS[i % COLORS.length]
+          return (
+            <g key={st}>
+              <polyline points={pts} fill="none" stroke={color} strokeWidth="2" />
+              {stPts.map((d) => <circle key={d.year} cx={x(d.year)} cy={y(d.wqi)} r="3" fill={color} />)}
+            </g>
+          )
         })}
       </svg>
       <div className="trend-legend">

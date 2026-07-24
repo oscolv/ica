@@ -20,4 +20,12 @@ describe('TrendChart', () => {
     expect(screen.getByText('2019')).toBeInTheDocument()
     expect(screen.getByText('2020')).toBeInTheDocument()
   })
+  it('dibuja un punto por cada dato', () => {
+    const data: YearlyWqi[] = [
+      { station: 'S1', year: 2019, wqi: 90 },
+      { station: 'S1', year: 2020, wqi: 40 },
+    ]
+    const { container } = render(<TrendChart data={data} />)
+    expect(container.querySelectorAll('circle').length).toBe(2)
+  })
 })

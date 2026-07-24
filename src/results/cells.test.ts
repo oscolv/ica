@@ -28,4 +28,24 @@ describe('computeCells', () => {
     const cells = computeCells(rows, gl)
     expect(cells).toHaveLength(0)
   })
+  it('aplica la regla del límite de detección (LD>guía no cuenta como falla)', () => {
+    const rows: DataRow[] = [
+      { station: 'S1', date: new Date(2020, 0, 1), values: { TP: '<0.1' } }, // LD 0.1 > guía 0.05, pero no detectado -> no falla
+    ]
+    const cells = computeCells(rows, gl)
+    expect(cells).toHaveLength(1)
+    expect(cells[0]).toMatchObject({ fail: false, band: 'pass' })
+  })
+  it('calcula el factor de exceso en modo mínimo (guía/valor)', () => {
+    const glMin: GuidelineTable = new Map([
+      ['DO', [{ parameterId: 'DO', ruleType: 'min', lowerLimit: 9.5, upperLimit: null, unit: 'mg/L' }]],
+    ])
+    const rows: DataRow[] = [
+      { station: 'S1', date: new Date(2020, 0, 1), values: { DO: '5' } }, // 9.5/5 = 1.9 -> falla, banda lt10
+    ]
+    const cells = computeCells(rows, glMin)
+    expect(cells[0].fail).toBe(true)
+    expect(cells[0].band).toBe('lt10')
+    expect(cells[0].ratio).toBeCloseTo(1.9, 5)
+  })
 })

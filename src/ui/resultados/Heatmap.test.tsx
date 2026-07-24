@@ -19,4 +19,17 @@ describe('Heatmap', () => {
     expect(container.querySelectorAll('.hm-cell').length).toBe(2)
     expect(container.querySelector('.hm-cell.band-lt10')).not.toBeNull()
   })
+  it('separa las cuadrículas por estación (no colisiona misma fecha+parámetro)', () => {
+    const multi: CellResult[] = [
+      { station: 'S1', date: new Date(2020, 0, 1), parameterId: 'TP', raw: '0.10', fail: true, ratio: 2, band: 'lt10' },
+      { station: 'S2', date: new Date(2020, 0, 1), parameterId: 'TP', raw: '2.0', fail: true, ratio: 40, band: 'gt25' },
+    ]
+    const { container } = render(<Heatmap cells={multi} />)
+    expect(screen.getByText('S1')).toBeInTheDocument()
+    expect(screen.getByText('S2')).toBeInTheDocument()
+    // dos cuadrículas, cada una con su celda: no se pierde ninguna
+    expect(container.querySelectorAll('.hm-cell').length).toBe(2)
+    expect(container.querySelector('.hm-cell.band-lt10')).not.toBeNull()
+    expect(container.querySelector('.hm-cell.band-gt25')).not.toBeNull()
+  })
 })
