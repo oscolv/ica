@@ -24,4 +24,10 @@ describe('GuiasModule', () => {
     // el editor muestra un parámetro conocido del CCME
     expect(screen.getByDisplayValue('ARSENIC_TOTAL_ugL')).toBeInTheDocument()
   })
+  it('abre el formulario de agregar parámetro', async () => {
+    setup()
+    await userEvent.click(screen.getByRole('button', { name: /CCME/i }))
+    await userEvent.click(screen.getByRole('button', { name: /agregar parámetro/i }))
+    expect(screen.getByLabelText(/catálogo/i)).toBeInTheDocument()
+  })
 })
