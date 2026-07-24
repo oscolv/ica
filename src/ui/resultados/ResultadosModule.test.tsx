@@ -39,5 +39,6 @@ describe('ResultadosModule', () => {
     expect(screen.getByRole('button', { name: /descargar csv/i })).toBeInTheDocument()
     // WQI ~34 para este caso conocido (ver motor); basta con que aparezca la tarjeta
     expect(screen.getByText(/Alcance/i)).toBeInTheDocument()
+    expect(screen.getByText('34')).toBeInTheDocument()
   })
 })

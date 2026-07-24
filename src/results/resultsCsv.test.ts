@@ -18,4 +18,10 @@ describe('resultsToCsv', () => {
     expect(lines[1]).toContain('Poor')
     expect(lines[1]).toContain('AL; FE')
   })
+
+  it('escapa las comillas internas en nombres (RFC 4180)', () => {
+    const r2 = { ...r, station: 'Sitio "A"' }
+    const csv = resultsToCsv([r2])
+    expect(csv).toContain('"Sitio ""A"""')
+  })
 })

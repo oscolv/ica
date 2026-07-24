@@ -3,9 +3,13 @@ import type { StationResult } from '../engine/types'
 const HEADER =
   'Station,WQI,Categoria,F1,F2,F3,nse,ParametrosTotales,PruebasTotales,PruebasFallidas,ParametrosQueFallan'
 
+function q(s: string): string {
+  return `"${s.replace(/"/g, '""')}"`
+}
+
 function rowToCsv(r: StationResult): string {
   return [
-    `"${r.station}"`,
+    q(r.station),
     r.wqi.toFixed(1),
     r.category,
     r.f1.toFixed(1),
@@ -15,7 +19,7 @@ function rowToCsv(r: StationResult): string {
     r.nParams,
     r.nTests,
     r.nFailedTests,
-    `"${r.failedParams.join('; ')}"`,
+    q(r.failedParams.join('; ')),
   ].join(',')
 }
 
