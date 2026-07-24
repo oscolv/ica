@@ -51,4 +51,20 @@ describe('projectReducer', () => {
     const s3 = projectReducer(s2, { type: 'removeRow', parameterId: 'PB', index: 0 })
     expect(s3.guideline!.has('PB')).toBe(false)
   })
+  it('loadData guarda filas, columnas y nombre sin borrar la guía', () => {
+    const withGl = projectReducer(initialState, { type: 'loadGuideline', table: table([row({ parameterId: 'AS', upperLimit: 5 })]), name: 'CCME' })
+    const s = projectReducer(withGl, { type: 'loadData', rows: [{ station: 'S1', date: null, values: { AS: '1' } }], columns: ['AS'], name: 'datos.csv' })
+    expect(s.dataName).toBe('datos.csv')
+    expect(s.data!).toHaveLength(1)
+    expect(s.dataColumns).toEqual(['AS'])
+    expect(s.guidelineName).toBe('CCME') // la guía se conserva
+  })
+  it('clearData borra el dataset pero conserva la guía', () => {
+    const withGl = projectReducer(initialState, { type: 'loadGuideline', table: table([row({ parameterId: 'AS', upperLimit: 5 })]), name: 'CCME' })
+    const withData = projectReducer(withGl, { type: 'loadData', rows: [{ station: 'S1', date: null, values: { AS: '1' } }], columns: ['AS'], name: 'd.csv' })
+    const s = projectReducer(withData, { type: 'clearData' })
+    expect(s.data).toBeNull()
+    expect(s.dataColumns).toEqual([])
+    expect(s.guideline).not.toBeNull()
+  })
 })

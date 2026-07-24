@@ -1,0 +1,9 @@
+.dentry h2 { font-size: 1.25rem; margin: 0 0 0.5rem; }
+.dentry-help { color: var(--muted); max-width: 620px; line-height: 1.5; margin: 0 0 1rem; }
+.dentry code { background: var(--card); border: 1px solid var(--line); border-radius: 4px; padding: 0.05rem 0.3rem; font-size: 0.85em; }
+.dbtn {
+  background: var(--accent); color: #fff; border: none; border-radius: 8px;
+  padding: 0.5rem 0.9rem; cursor: pointer; font: inherit; font-weight: 600;
+}
+.dbtn:hover { filter: brightness(1.08); }
+.dentry-error { color: #c0392b; margin-top: 0.75rem; font-size: 0.9rem; }
