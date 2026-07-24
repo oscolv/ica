@@ -41,4 +41,22 @@ describe('ResultadosModule', () => {
     expect(screen.getByText(/Alcance/i)).toBeInTheDocument()
     expect(screen.getByText('34')).toBeInTheDocument()
   })
+  it('muestra las secciones de tendencia y mapa de excedencias', async () => {
+    const table: import('../../engine/types').GuidelineTable = new Map([
+      ['TP', [{ parameterId: 'TP', ruleType: 'max', lowerLimit: null, upperLimit: 0.05, unit: 'mg/L' }]],
+    ])
+    const rows: import('../../engine/types').DataRow[] = [
+      { station: 'S1', date: new Date(2019, 0, 1), values: { TP: '0.02' } },
+      { station: 'S1', date: new Date(2020, 0, 1), values: { TP: '0.10' } },
+    ]
+    render(
+      <ProjectProvider>
+        <Seed table={table} rows={rows} columns={['TP']} />
+        <ResultadosModule />
+      </ProjectProvider>,
+    )
+    await userEvent.click(screen.getByText('seed'))
+    expect(screen.getByRole('heading', { name: /Tendencia por año/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Mapa de excedencias/i })).toBeInTheDocument()
+  })
 })
