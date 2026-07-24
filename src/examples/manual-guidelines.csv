@@ -1,0 +1,11 @@
+PARAMETER_ID,EXCEED_IF,LOWER_LIMIT,UPPER_LIMIT,HARDNESS_LOWER,HARDNESS_UPPER,SEASON_START,SEASON_FINISH,GUIDELINE_SOURCE,UNIT_ID
+DO,<,5,,,,,,Manual CCME Tabla 1,mg/L
+PH,<>,6.5,9,,,,,Manual CCME Tabla 1,
+TP,>,,0.05,,,,,Manual CCME Tabla 1,mg/L
+TN,>,,1,,,,,Manual CCME Tabla 1,mg/L
+FC,>,,400,,,,,Manual CCME Tabla 1,#/dL
+AS,>,,0.05,,,,,Manual CCME Tabla 1,mg/L
+PB,>,,0.004,,,,,Manual CCME Tabla 1,mg/L
+HG,>,,0.1,,,,,Manual CCME Tabla 1,ug/L
+D24,>,,4,,,,,Manual CCME Tabla 1,ug/L
+LINDANE,>,,0.01,,,,,Manual CCME Tabla 1,ug/L
