@@ -9,25 +9,33 @@ function fullYear(y: number): number {
   return y <= 49 ? 2000 + y : 1900 + y
 }
 
+/** Construye un Date validando rango real (rechaza desbordes como 2007-02-30). */
+function mk(year: number, monthIndex: number, day: number): Date | null {
+  if (monthIndex < 0 || monthIndex > 11 || day < 1 || day > 31) return null
+  const d = new Date(year, monthIndex, day)
+  if (d.getFullYear() !== year || d.getMonth() !== monthIndex || d.getDate() !== day) return null
+  return d
+}
+
 export function parseFlexibleDate(s: string): Date | null {
   const t = s.trim()
   if (t === '') return null
 
   // YYYY-MM-DD
   let m = t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)
-  if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]))
+  if (m) return mk(Number(m[1]), Number(m[2]) - 1, Number(m[3]))
 
   // D-Mon-YY o D-Mon-YYYY
   m = t.match(/^(\d{1,2})-([A-Za-z]{3})-(\d{2,4})$/)
   if (m) {
     const mon = MONTHS[m[2].toLowerCase()]
     if (mon === undefined) return null
-    return new Date(fullYear(Number(m[3])), mon, Number(m[1]))
+    return mk(fullYear(Number(m[3])), mon, Number(m[1]))
   }
 
   // M/D/YYYY o M/D/YY
   m = t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/)
-  if (m) return new Date(fullYear(Number(m[3])), Number(m[1]) - 1, Number(m[2]))
+  if (m) return mk(fullYear(Number(m[3])), Number(m[1]) - 1, Number(m[2]))
 
   return null
 }

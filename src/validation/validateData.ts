@@ -23,9 +23,10 @@ export function validateData(
 
   const issues: ValidationIssue[] = []
   const colSet = new Set(columns)
+  const contextCols = new Set([hardnessCol, phCol, tempCol].map((c) => c.toUpperCase()))
 
   const matched = columns.filter((c) => table.has(c))
-  const dataWithoutGuideline = columns.filter((c) => !table.has(c))
+  const dataWithoutGuideline = columns.filter((c) => !table.has(c) && !contextCols.has(c.toUpperCase()))
   const guidelineWithoutData = [...table.keys()].filter((p) => !colSet.has(p))
 
   // Dependencias de contexto (dureza/pH/temp) por tipo de regla.
@@ -56,7 +57,7 @@ export function validateData(
       if (p.toUpperCase() === phCol.toUpperCase() && (value < 0 || value > 14)) {
         issues.push({ severity: 'warn', code: 'PH_FUERA_DE_RANGO', parameterId: p, column: p, row: rowNum, message: `Fila ${rowNum}: pH ${value} fuera del rango físico 0–14.` })
       }
-      if (value < 0) {
+      if (value < 0 && p.toUpperCase() !== phCol.toUpperCase()) {
         issues.push({ severity: 'warn', code: 'VALOR_NEGATIVO', parameterId: p, column: p, row: rowNum, message: `Fila ${rowNum}, "${p}": valor negativo (${value}).` })
       }
     }

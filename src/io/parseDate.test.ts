@@ -24,4 +24,13 @@ describe('parseFlexibleDate', () => {
     expect(parseFlexibleDate('no-es-fecha')).toBeNull()
     expect(parseFlexibleDate('')).toBeNull()
   })
+  it('rechaza mes/día fuera de rango', () => {
+    expect(parseFlexibleDate('13/5/2007')).toBeNull()
+    expect(parseFlexibleDate('2007-13-45')).toBeNull()
+    expect(parseFlexibleDate('2007-02-30')).toBeNull()
+  })
+  it('aplica el corte de siglo de 2 dígitos', () => {
+    expect(parseFlexibleDate('1/1/49')!.getFullYear()).toBe(2049)
+    expect(parseFlexibleDate('1/1/50')!.getFullYear()).toBe(1950)
+  })
 })

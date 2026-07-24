@@ -54,4 +54,20 @@ describe('validateData', () => {
     const res = validateData(rows, ['TP'], gl)
     expect(res.issues.some((i) => i.code === 'VALOR_NO_NUMERICO')).toBe(false)
   })
+
+  it('no lista columnas de contexto (HARDNESS) como datos sin guía', () => {
+    const rows: DataRow[] = [{ station: 'A', date: new Date(2020, 0, 1), values: { TP: '0.02', HARDNESS: '150' } }]
+    const res = validateData(rows, ['TP', 'HARDNESS'], gl)
+    expect(res.dataWithoutGuideline).not.toContain('HARDNESS')
+  })
+  it('error FALTA_PH para regla por pH sin columna PH, y FALTA_PH_TEMP para amoníaco', () => {
+    const gl2 = table([
+      { parameterId: 'AL', ruleType: 'alPh', lowerLimit: null, upperLimit: null, unit: 'mg/L' },
+      { parameterId: 'NH3', ruleType: 'ammonia', lowerLimit: 0.0152, upperLimit: null, unit: 'mg/L' },
+    ])
+    const rows: DataRow[] = [{ station: 'A', date: new Date(2020, 0, 1), values: { AL: '0.1', NH3: '0.5' } }]
+    const res = validateData(rows, ['AL', 'NH3'], gl2)
+    expect(res.issues.some((i) => i.code === 'FALTA_PH')).toBe(true)
+    expect(res.issues.some((i) => i.code === 'FALTA_PH_TEMP')).toBe(true)
+  })
 })
