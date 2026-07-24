@@ -40,6 +40,7 @@ export function resolveGuideline(
     case 'min':
       return rows[0].lowerLimit != null ? { target: rows[0].lowerLimit, mode: 'min' } : null
     case 'range':
+      if (rows[0].lowerLimit == null && rows[0].upperLimit == null) return null
       return { target: [rows[0].lowerLimit, rows[0].upperLimit], mode: 'range' }
     case 'alPh':
       return ctx.pH != null ? { target: aluminumGuideline(ctx.pH), mode: 'max' } : null
@@ -53,11 +54,12 @@ export function resolveGuideline(
       return ctx.hardness != null ? { target: leadGuideline(ctx.hardness), mode: 'max' } : null
     case 'znHardness':
       return ctx.hardness != null ? { target: zincGuideline(ctx.hardness), mode: 'max' } : null
-    case 'ammonia':
+    case 'ammonia': {
       if (ctx.pH == null || ctx.temp == null) return null
       const limit = rows[0].lowerLimit ?? rows[0].upperLimit
       if (limit == null) return null
       return { target: ammoniaTotalGuideline(limit, ctx.pH, ctx.temp), mode: 'max' }
+    }
     case 'hardnessStep': {
       if (ctx.hardness == null) return null
       for (const r of rows) {

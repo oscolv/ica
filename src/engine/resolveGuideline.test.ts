@@ -51,4 +51,7 @@ describe('resolveGuideline', () => {
   it('devuelve null si no hay límite numérico', () => {
     expect(resolveGuideline([row({ ruleType: 'max', upperLimit: null })], ctx())).toBeNull()
   })
+  it('range: devuelve null si ambos límites son null', () => {
+    expect(resolveGuideline([row({ ruleType: 'range', lowerLimit: null, upperLimit: null })], ctx())).toBeNull()
+  })
 })
