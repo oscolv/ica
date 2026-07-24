@@ -31,4 +31,12 @@ describe('GuidelineEntry', () => {
     await userEvent.click(screen.getByRole('button', { name: /empezar de cero/i }))
     expect(screen.getByTestId('probe').textContent).toMatch(/:0$/)
   })
+  it('muestra un mensaje si el archivo no se puede leer', async () => {
+    setup()
+    const oleHeader = [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]
+    const bad = new File([new Uint8Array([...oleHeader, ...new Array(92).fill(0)])], 'malo.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement
+    await userEvent.upload(input, bad)
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
+  })
 })

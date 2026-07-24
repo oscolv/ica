@@ -44,4 +44,11 @@ describe('GuidelineTableEditor', () => {
     await userEvent.click(screen.getByRole('button', { name: /eliminar/i }))
     expect(screen.queryByDisplayValue('ARSENIC')).not.toBeInTheDocument()
   })
+  it('permite teclear valores decimales en el límite', async () => {
+    await setup()
+    const input = screen.getByDisplayValue('5')
+    await userEvent.clear(input)
+    await userEvent.type(input, '0.05')
+    expect((input as HTMLInputElement).value).toBe('0.05')
+  })
 })

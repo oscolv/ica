@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useProject } from '../../state/ProjectContext'
 import { PRESETS } from '../../presets'
 import { parseGuidelinesCsv } from '../../io/parseGuidelines'
@@ -8,15 +8,22 @@ import './GuidelineEntry.css'
 export function GuidelineEntry() {
   const { dispatch } = useProject()
   const fileRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState<string | null>(null)
 
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    const isExcel = /\.xlsx?$/i.test(file.name)
-    const csv = isExcel ? workbookToCsv(await file.arrayBuffer()) : await file.text()
-    const { table } = parseGuidelinesCsv(csv)
-    dispatch({ type: 'loadGuideline', table, name: file.name })
-    e.target.value = ''
+    try {
+      const isExcel = /\.xlsx?$/i.test(file.name)
+      const csv = isExcel ? workbookToCsv(await file.arrayBuffer()) : await file.text()
+      const { table } = parseGuidelinesCsv(csv)
+      dispatch({ type: 'loadGuideline', table, name: file.name })
+      setError(null)
+    } catch {
+      setError('No se pudo leer el archivo. Verifica que sea un CSV o Excel (.xlsx) válido.')
+    } finally {
+      e.target.value = ''
+    }
   }
 
   return (
@@ -39,6 +46,7 @@ export function GuidelineEntry() {
         </button>
       </div>
       <input ref={fileRef} type="file" accept=".csv,.xlsx,.xls" hidden onChange={onFile} />
+      {error && <p className="entry-error" role="alert">{error}</p>}
     </section>
   )
 }

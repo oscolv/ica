@@ -18,8 +18,10 @@ export function GuiasModule() {
     const a = document.createElement('a')
     a.href = url
     a.download = 'guidelines.csv'
+    document.body.appendChild(a)
     a.click()
-    URL.revokeObjectURL(url)
+    a.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 0)
   }
 
   return (

@@ -10,6 +10,7 @@ export type ProjectAction =
   | { type: 'setRow'; parameterId: string; index: number; patch: Partial<GuidelineRow> }
   | { type: 'addParameter'; row: GuidelineRow }
   | { type: 'removeParameter'; parameterId: string }
+  | { type: 'removeRow'; parameterId: string; index: number }
   | { type: 'clear' }
 
 export const initialState: ProjectState = { guideline: null, guidelineName: '' }
@@ -45,6 +46,17 @@ export function projectReducer(state: ProjectState, action: ProjectAction): Proj
       if (!state.guideline) return state
       const t = cloneTable(state.guideline)
       t.delete(action.parameterId)
+      return { ...state, guideline: t }
+    }
+    case 'removeRow': {
+      if (!state.guideline) return state
+      const t = cloneTable(state.guideline)
+      const rows = t.get(action.parameterId)
+      if (rows) {
+        rows.splice(action.index, 1)
+        if (rows.length === 0) t.delete(action.parameterId)
+        else t.set(action.parameterId, rows)
+      }
       return { ...state, guideline: t }
     }
     case 'clear':

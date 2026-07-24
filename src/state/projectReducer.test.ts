@@ -39,4 +39,16 @@ describe('projectReducer', () => {
     const s2 = projectReducer(s1, { type: 'removeParameter', parameterId: 'AS' })
     expect(s2.guideline!.has('AS')).toBe(false)
   })
+  it('removeRow elimina solo una fila; borra el parámetro si queda vacío', () => {
+    const t = table([
+      row({ parameterId: 'PB', ruleType: 'hardnessStep', upperLimit: 1, hardnessLower: 0, hardnessUpper: 60 }),
+      row({ parameterId: 'PB', ruleType: 'hardnessStep', upperLimit: 7, hardnessLower: 180, hardnessUpper: null }),
+    ])
+    const s1 = projectReducer(initialState, { type: 'loadGuideline', table: t, name: 'x' })
+    const s2 = projectReducer(s1, { type: 'removeRow', parameterId: 'PB', index: 0 })
+    expect(s2.guideline!.get('PB')).toHaveLength(1)
+    expect(s2.guideline!.get('PB')![0].upperLimit).toBe(7)
+    const s3 = projectReducer(s2, { type: 'removeRow', parameterId: 'PB', index: 0 })
+    expect(s3.guideline!.has('PB')).toBe(false)
+  })
 })
