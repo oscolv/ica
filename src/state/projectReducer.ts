@@ -1,8 +1,11 @@
-import type { GuidelineTable, GuidelineRow } from '../engine/types'
+import type { GuidelineTable, GuidelineRow, DataRow } from '../engine/types'
 
 export interface ProjectState {
   guideline: GuidelineTable | null
   guidelineName: string
+  data: DataRow[] | null
+  dataColumns: string[]
+  dataName: string
 }
 
 export type ProjectAction =
@@ -11,9 +14,17 @@ export type ProjectAction =
   | { type: 'addParameter'; row: GuidelineRow }
   | { type: 'removeParameter'; parameterId: string }
   | { type: 'removeRow'; parameterId: string; index: number }
+  | { type: 'loadData'; rows: DataRow[]; columns: string[]; name: string }
+  | { type: 'clearData' }
   | { type: 'clear' }
 
-export const initialState: ProjectState = { guideline: null, guidelineName: '' }
+export const initialState: ProjectState = {
+  guideline: null,
+  guidelineName: '',
+  data: null,
+  dataColumns: [],
+  dataName: '',
+}
 
 /** Copia superficial de la tabla (Map nuevo con arrays nuevos) para inmutabilidad. */
 function cloneTable(t: GuidelineTable): GuidelineTable {
@@ -25,7 +36,7 @@ function cloneTable(t: GuidelineTable): GuidelineTable {
 export function projectReducer(state: ProjectState, action: ProjectAction): ProjectState {
   switch (action.type) {
     case 'loadGuideline':
-      return { guideline: cloneTable(action.table), guidelineName: action.name }
+      return { ...state, guideline: cloneTable(action.table), guidelineName: action.name }
     case 'setRow': {
       if (!state.guideline) return state
       const t = cloneTable(state.guideline)
@@ -59,6 +70,10 @@ export function projectReducer(state: ProjectState, action: ProjectAction): Proj
       }
       return { ...state, guideline: t }
     }
+    case 'loadData':
+      return { ...state, data: action.rows, dataColumns: action.columns, dataName: action.name }
+    case 'clearData':
+      return { ...state, data: null, dataColumns: [], dataName: '' }
     case 'clear':
       return initialState
     default:
