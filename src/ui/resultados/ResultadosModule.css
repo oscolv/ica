@@ -1,0 +1,11 @@
+.res-empty { color: var(--muted); padding: 1.5rem 0; }
+.res-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.res-bar h2 { font-size: 1.2rem; margin: 0; }
+.res-btn {
+  background: var(--accent); color: #fff; border: none; border-radius: 8px;
+  padding: 0.5rem 0.9rem; cursor: pointer; font: inherit; font-weight: 600;
+}
+.res-btn:hover { filter: brightness(1.08); }
+.res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+.res-station { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 0.5rem 1rem 1.2rem; }
+.res-station .gcard { border: none; background: none; padding: 0.6rem 0; }
