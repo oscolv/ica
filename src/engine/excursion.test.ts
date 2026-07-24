@@ -24,4 +24,10 @@ describe('evaluate (excursión y pass/fail)', () => {
   it('range: pasa dentro del intervalo', () => {
     expect(evaluate(7.5, { target: [6.5, 9], mode: 'range' })).toEqual({ fail: false, excursion: 0 })
   })
+  it('min: valor 0 no produce NaN, falla con excursión 0', () => {
+    expect(evaluate(0, { target: 9.5, mode: 'min' })).toEqual({ fail: true, excursion: 0 })
+  })
+  it('range: valor 0 bajo el inferior no produce NaN, excursión 0', () => {
+    expect(evaluate(0, { target: [6.5, 9], mode: 'range' })).toEqual({ fail: true, excursion: 0 })
+  })
 })

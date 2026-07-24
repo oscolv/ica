@@ -19,4 +19,8 @@ describe('parseValue', () => {
   it('texto no numérico -> null', () => {
     expect(parseValue('abc')).toEqual({ value: null, nonDetect: false })
   })
+  it('prefijo de no-detectado sin número -> null', () => {
+    expect(parseValue('<')).toEqual({ value: null, nonDetect: false })
+    expect(parseValue('L')).toEqual({ value: null, nonDetect: false })
+  })
 })

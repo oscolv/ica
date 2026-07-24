@@ -11,12 +11,18 @@ export function evaluate(
   }
   if (g.mode === 'min') {
     const t = g.target as number
-    if (value < t) return { fail: true, excursion: t / value - 1 }
+    if (value < t) {
+      // Un valor no positivo no admite razón de excursión (obj/value → ∞);
+      // se marca como falla con amplitud 0 para no corromper el índice con NaN.
+      return { fail: true, excursion: value > 0 ? t / value - 1 : 0 }
+    }
     return { fail: false, excursion: 0 }
   }
   // range
   const [lo, hi] = g.target as [number | null, number | null]
-  if (lo != null && value < lo) return { fail: true, excursion: lo / value - 1 }
+  if (lo != null && value < lo) {
+    return { fail: true, excursion: value > 0 ? lo / value - 1 : 0 }
+  }
   if (hi != null && value > hi) return { fail: true, excursion: value / hi - 1 }
   return { fail: false, excursion: 0 }
 }

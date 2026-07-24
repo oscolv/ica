@@ -67,4 +67,21 @@ describe('computeStations', () => {
     // dureza 312 -> guía cobre 4 µg/L; valor 5 > 4 -> falla
     expect(res[0].nFailedTests).toBe(1)
   })
+
+  it('calcula nse, F3 y WQI de extremo a extremo (no solo conteos)', () => {
+    const gl2 = table([
+      { parameterId: 'DO', ruleType: 'min', lowerLimit: 5, upperLimit: null },
+      { parameterId: 'TP', ruleType: 'max', lowerLimit: null, upperLimit: 0.05 },
+    ])
+    const rows2: DataRow[] = [
+      { station: 'S1', date: new Date(2020, 0, 1), values: { DO: '6', TP: '0.10' } },
+      { station: 'S1', date: new Date(2020, 1, 1), values: { DO: '4', TP: '0.02' } },
+    ]
+    const s = computeStations(rows2, gl2)[0]
+    expect(s.f1).toBe(100)
+    expect(s.f2).toBe(50)
+    expect(s.nse).toBeCloseTo(0.3125, 4)
+    expect(s.f3).toBeCloseTo(23.81, 2)
+    expect(s.wqi).toBeCloseTo(34.0, 1)
+  })
 })
