@@ -9,3 +9,5 @@
 .res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
 .res-station { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 0.5rem 1rem 1.2rem; }
 .res-station .gcard { border: none; background: none; padding: 0.6rem 0; }
+.res-chart { margin-top: 1.75rem; }
+.res-chart h3 { color: var(--accent); font-size: 1.05rem; margin: 0 0 0.5rem; }

@@ -2,8 +2,12 @@ import { useMemo } from 'react'
 import { useProject } from '../../state/ProjectContext'
 import { computeStations } from '../../engine'
 import { resultsToCsv } from '../../results/resultsCsv'
+import { computeYearlyWqi } from '../../results/yearly'
+import { computeCells } from '../../results/cells'
 import { GaugeCard } from './GaugeCard'
 import { FactorBars } from './FactorBars'
+import { TrendChart } from './TrendChart'
+import { Heatmap } from './Heatmap'
 import './ResultadosModule.css'
 
 export function ResultadosModule() {
@@ -12,6 +16,14 @@ export function ResultadosModule() {
     if (!state.data || !state.guideline) return null
     return computeStations(state.data, state.guideline)
   }, [state.data, state.guideline])
+  const yearly = useMemo(
+    () => (state.data && state.guideline ? computeYearlyWqi(state.data, state.guideline) : []),
+    [state.data, state.guideline],
+  )
+  const cells = useMemo(
+    () => (state.data && state.guideline ? computeCells(state.data, state.guideline) : []),
+    [state.data, state.guideline],
+  )
 
   if (!state.guideline || !state.data) {
     return <p className="res-empty">Carga una guía (paso ①) y tus datos (paso ②) para calcular el WQI.</p>
@@ -46,6 +58,14 @@ export function ResultadosModule() {
             <FactorBars result={r} />
           </div>
         ))}
+      </div>
+      <div className="res-chart">
+        <h3>Tendencia por año</h3>
+        <TrendChart data={yearly} />
+      </div>
+      <div className="res-chart">
+        <h3>Mapa de excedencias</h3>
+        <Heatmap cells={cells} />
       </div>
     </section>
   )
