@@ -25,6 +25,20 @@
   box-sizing: border-box;
 }
 
+/* el lienzo hereda el fondo del tema: si el gradiente fijo del body no
+   cubre una región (capturas de página completa, impresión), no se ve
+   un parche blanco; además color-scheme pone las barras de desplazamiento
+   nativas acordes al tema */
+html {
+  background: var(--bg2);
+}
+:root {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;

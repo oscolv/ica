@@ -59,9 +59,6 @@
 
   /* movimiento */
   --speed: 150ms;
-
-  /* alias heredado del tema viejo; se elimina en la tarea de pulido */
-  --accent2: var(--accent);
 }
 
 :root[data-theme='dark'] {

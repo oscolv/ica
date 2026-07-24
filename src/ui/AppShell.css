@@ -101,3 +101,16 @@
   text-align: center;
   margin-top: 2.5rem;
 }
+
+@media (max-width: 720px) {
+  .shell {
+    padding: 0.75rem 0.9rem 2.5rem;
+  }
+  .shell-title {
+    display: none;
+  }
+  .shell-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
