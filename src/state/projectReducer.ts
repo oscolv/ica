@@ -16,6 +16,7 @@ export type ProjectAction =
   | { type: 'removeRow'; parameterId: string; index: number }
   | { type: 'loadData'; rows: DataRow[]; columns: string[]; name: string }
   | { type: 'clearData' }
+  | { type: 'hydrate'; state: ProjectState }
   | { type: 'clear' }
 
 export const initialState: ProjectState = {
@@ -74,6 +75,8 @@ export function projectReducer(state: ProjectState, action: ProjectAction): Proj
       return { ...state, data: action.rows, dataColumns: action.columns, dataName: action.name }
     case 'clearData':
       return { ...state, data: null, dataColumns: [], dataName: '' }
+    case 'hydrate':
+      return action.state
     case 'clear':
       return initialState
     default:

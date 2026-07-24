@@ -67,4 +67,11 @@ describe('projectReducer', () => {
     expect(s.dataColumns).toEqual([])
     expect(s.guideline).not.toBeNull()
   })
+  it('hydrate reemplaza el estado completo', () => {
+    const t = table([row({ parameterId: 'AS', upperLimit: 5 })])
+    const nuevo = { guideline: t, guidelineName: 'X', data: null, dataColumns: [], dataName: '' }
+    const s = projectReducer(initialState, { type: 'hydrate', state: nuevo })
+    expect(s.guidelineName).toBe('X')
+    expect(s.guideline!.get('AS')![0].upperLimit).toBe(5)
+  })
 })
