@@ -1,3 +1,20 @@
-.pm { margin-left: auto; display: flex; gap: 0.4rem; }
-.pm-btn { background: none; color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 0.35rem 0.7rem; cursor: pointer; font: inherit; font-size: 0.85rem; }
-.pm-btn:hover { color: var(--text); }
+.pm {
+  display: flex;
+  gap: 0.4rem;
+}
+.pm-btn {
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--card);
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  transition: color var(--speed), border-color var(--speed);
+}
+.pm-btn:hover {
+  color: var(--text);
+  border-color: var(--primary);
+}
