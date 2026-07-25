@@ -51,8 +51,10 @@
   FontFace={sb}{n}{Inter-SemiBold.ttf},
   FontFace={sb}{it}{Inter-SemiBold.ttf},
   FontFace={eb}{n}{Inter-ExtraBold.ttf},
-  FontFace={eb}{it}{Inter-ExtraBold.ttf},
-  Color=ink]
+  FontFace={eb}{it}{Inter-ExtraBold.ttf}]
+% Tinta como color global (NO como opcion de fuente: fontspec Color= anularia
+% todos los \color del documento — titulos, banners, cabeceras, colofon)
+\AtBeginDocument{\color{ink}}
 \DeclareRobustCommand{\sbseries}{\fontseries{sb}\selectfont}
 \DeclareTextFontCommand{\textsb}{\sbseries}
 \DeclareRobustCommand{\ebseries}{\fontseries{eb}\selectfont}
@@ -108,6 +110,8 @@
 
 % ---- Banners (antes «cajas»): fondo translúcido + título saturado, sin marco ----
 % Mismos nombres de entorno -> el cuerpo no cambia.
+% colupper: tcolorbox pone el cuerpo en negro por defecto; lo fijamos a la tinta
+\tcbset{colupper=ink}
 \newtcolorbox{keybox}[1][]{enhanced,breakable,colback=primary!8,colframe=primary!8,
   boxrule=0pt,arc=6pt,left=8pt,right=8pt,top=6pt,bottom=7pt,
   coltitle=primary,fonttitle=\sbseries,colbacktitle=primary!8,
@@ -338,7 +342,7 @@ incumplimientos); es la pieza que define \emph{qué} se considera un incumplimie
 cambia el veredicto, por lo que su origen debe documentarse tanto como el cálculo.
 
 \begin{center}\renewcommand{\arraystretch}{1.25}
-\begin{longtable}{@{}p{3.6cm} p{11.4cm}@{}}
+\begin{longtable}{@{}p{4.2cm} p{10.8cm}@{}}
 \toprule \textbf{Columna} & \textbf{Significado} \\ \midrule\endhead
 \texttt{PARAMETER\_ID} & Identificador; debe coincidir \textbf{exactamente} con la columna de datos. \\
 \texttt{EXCEED\_IF} & Tipo de regla de incumplimiento (el ``motor''). \\
