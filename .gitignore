@@ -25,3 +25,9 @@ dist-ssr
 
 # Sesiones de superpowers (brainstorming visual, planes temporales)
 .superpowers/
+
+# Artefactos LaTeX de la guía (el PDF publicado vive en public/guia-ica.pdf)
+docs/guia/*.aux
+docs/guia/*.out
+docs/guia/*.toc
+docs/guia/guia-ica.pdf

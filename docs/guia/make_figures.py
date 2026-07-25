@@ -4,7 +4,8 @@
 Mismos datos y fórmulas que las originales:
   - f3_curve.pdf        F3(nse) = nse/(0.01*nse+0.01), eje log, 4 puntos anotados.
   - hardness_guides.pdf Cd/Cu/Ni (fórmulas CCME) + Pb (escalones de Guidelines.csv);
-                        banda gris = rango de dureza de Data.csv.
+                        banda gris = durezas altas (>180 mg/L), la región de meseta
+                        de Cu/Ni/Pb (coherente con la caption del .tex).
   - factors.pdf         F1/F2/F3 de Station1/Station2 calculados con ccme_wqi.py
                         (implementación de referencia validada; se verifica WQI=88).
 
@@ -125,6 +126,12 @@ def hardness_range():
     return min(vals), max(vals)
 
 
+# Banda gris: región de meseta de las guías (caption del .tex: «durezas altas
+# (>180 mg/L), donde cobre, níquel y plomo alcanzan su techo»). 180 = umbral de
+# meseta de Cu/Ni/Pb; 400 = borde derecho, como en la figura original del manual.
+BAND_LO, BAND_HI = 180.0, 400.0
+
+
 def _band(ax, hmin, hmax):
     ax.axvspan(hmin, hmax, color=INK, alpha=0.06, lw=0)
     ax.axvline(hmax, color=MUTED, lw=0.8, ls=":")
@@ -134,17 +141,17 @@ def fig_hardness():
     assert abs(guide_cd(17) - 0.04) < 0.01 and abs(guide_cu(82) - 2) < 0.05
     assert guide_ni(60) == 25 and guide_ni(181) == 150
     H = np.linspace(10, 420, 500)
-    hmin, hmax = hardness_range()
+    hardness_range()  # sanity de datos (assert interno); la banda usa BAND_LO/HI
     steps = pb_steps()
     panels = [("Cadmio (CDHARDNESS)", [guide_cd(h) for h in H], S1),
               ("Cobre (CUHARDNESS)", [guide_cu(h) for h in H], S2),
               ("Níquel (NIHARDNESS)", [guide_ni(h) for h in H], S3)]
     fig, axes = plt.subplots(2, 2, figsize=(7.6, 5.2))
-    fig.suptitle("Guías de metales dependientes de la dureza (banda gris: rango de estos datos)",
+    fig.suptitle("Guías de metales dependientes de la dureza (banda gris: durezas altas, >180 mg/L)",
                  color=INK, fontsize=10)
     for ax, (title, y, color) in zip(axes.flat, panels):
         ax.plot(H, y, color=color, lw=1.8)
-        _band(ax, hmin, hmax)
+        _band(ax, BAND_LO, BAND_HI)
         ax.set_title(title, fontsize=9, color=INK)
         ax.set_xlabel("dureza (mg/L CaCO$_3$)", fontsize=8)
         ax.set_ylabel("guía (µg/L)", fontsize=8)
@@ -158,7 +165,7 @@ def fig_hardness():
         xs.append(420.0)
         ys.append(steps[-1][2])
     ax.plot(xs, ys, color=S4, lw=1.8)
-    _band(ax, hmin, hmax)
+    _band(ax, BAND_LO, BAND_HI)
     ax.set_title("Plomo (HARDNESS, escalones)", fontsize=9, color=INK)
     ax.set_xlabel("dureza (mg/L CaCO$_3$)", fontsize=8)
     ax.set_ylabel("guía (µg/L)", fontsize=8)
