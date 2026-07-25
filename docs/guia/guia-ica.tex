@@ -1,16 +1,15 @@
 \documentclass[11pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[spanish,provide=*]{babel}
-\usepackage{lmodern}
-\usepackage{microtype}
-\usepackage{pifont}
 \usepackage{amsmath,amssymb}
 \usepackage{geometry}
 \geometry{margin=2.3cm,headsep=14pt}
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{pifont}
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{colortbl}
 \usepackage{array}
 \usepackage{longtable}
 \usepackage{enumitem}
@@ -18,89 +17,171 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{caption}
+\usepackage{etoolbox}
+\usepackage{tikz}
 \usepackage{hyperref}
 
-% ---- Paleta de marca ICA ----
-\definecolor{icablue}{HTML}{1F4E79}
-\definecolor{icacyan}{HTML}{0E7490}
-\definecolor{icaink}{HTML}{16233F}
-\definecolor{icagray}{HTML}{5D6D7E}
-\definecolor{icalight}{HTML}{EAF0F6}
-\definecolor{icared}{HTML}{C0392B}
-\definecolor{icagreen}{HTML}{1E8449}
-\definecolor{icaamber}{HTML}{B7791F}
+% ---- Tokens «Agua viva» (espejo de src/styles/tokens.css, tema claro) ----
+\definecolor{agua}{HTML}{EEF7F7}      % --bg
+\definecolor{agua2}{HTML}{E9F3F9}     % --bg2
+\definecolor{ink}{HTML}{0F2E3D}       % --text
+\definecolor{muted}{HTML}{5B7A89}     % --muted
+\definecolor{primary}{HTML}{0E7490}   % --primary
+\definecolor{accent}{HTML}{0D9488}    % --accent
+\definecolor{line}{HTML}{D7E5EA}      % --line
+% semáforo de categorías (solo calidad del agua) + tintas AA
+\definecolor{catexcelente}{HTML}{0F766E}
+\definecolor{catbuena}{HTML}{22C55E}   \definecolor{catbuenaink}{HTML}{052E16}
+\definecolor{catregular}{HTML}{EAB308} \definecolor{catregularink}{HTML}{1F2937}
+\definecolor{catmarginal}{HTML}{F97316}\definecolor{catmarginalink}{HTML}{431407}
+\definecolor{catmala}{HTML}{DC2626}
+% semánticos de validación
+\definecolor{okink}{HTML}{15803D}
+\definecolor{warnink}{HTML}{92600A}
 
-\hypersetup{colorlinks=true,linkcolor=icablue,urlcolor=icacyan,citecolor=icablue,
+% ---- Tipografía: la Inter real de la app (instancias en fonts/) ----
+\setmainfont{Inter}[
+  Path=fonts/,
+  UprightFont=Inter-Regular.ttf,
+  ItalicFont=Inter-Regular.ttf,
+  BoldFont=Inter-Bold.ttf,
+  BoldItalicFont=Inter-Bold.ttf,
+  ItalicFeatures={FakeSlant=0.22},
+  BoldItalicFeatures={FakeSlant=0.22},
+  FontFace={sb}{n}{Inter-SemiBold.ttf},
+  FontFace={sb}{it}{Inter-SemiBold.ttf},
+  FontFace={eb}{n}{Inter-ExtraBold.ttf},
+  FontFace={eb}{it}{Inter-ExtraBold.ttf},
+  Color=ink]
+\DeclareRobustCommand{\sbseries}{\fontseries{sb}\selectfont}
+\DeclareTextFontCommand{\textsb}{\sbseries}
+\DeclareRobustCommand{\ebseries}{\fontseries{eb}\selectfont}
+\DeclareTextFontCommand{\texteb}{\ebseries}
+% números tabulares en tablas (equivalente a 'tnum' en la web)
+\AtBeginEnvironment{tabular}{\addfontfeature{Numbers=Tabular}}
+\AtBeginEnvironment{longtable}{\addfontfeature{Numbers=Tabular}}
+
+\hypersetup{colorlinks=true,linkcolor=primary,urlcolor=accent,citecolor=primary,
   pdftitle={Guia de referencia ICA - Indice de Calidad del Agua},pdfauthor={ICA}}
-\captionsetup{font=small,labelfont={bf,color=icablue}}
+\DeclareCaptionFont{icasb}{\sbseries}
+\captionsetup{font=small,labelfont={icasb,color=primary}}
 \setlength{\parskip}{0.35em}
 \setlength{\parindent}{0pt}
+\arrayrulecolor{line}
+% último recurso de justificación: evita overfull en líneas con tokens largos inseparables
+% (p. ej. «NOM-001-SEMARNAT-2021» en Referencias); no altera el texto, solo el espaciado
+\setlength{\emergencystretch}{1.5em}
 
-\titleformat{\part}{\centering\Huge\bfseries\color{icablue}}{\thepart}{1em}{}[{\color{icacyan}\titlerule[1.5pt]}]
-\titleformat{\section}{\color{icablue}\Large\bfseries}{\thesection}{0.6em}{}[{\color{icalight}\titlerule[1pt]}]
-\titleformat{\subsection}{\color{icacyan}\large\bfseries}{\thesubsection}{0.6em}{}
-\titleformat{\subsubsection}{\color{icagray}\normalsize\bfseries}{\thesubsubsection}{0.6em}{}
+% ---- Títulos ----
+\titleformat{\section}{\color{primary}\Large\ebseries}{\thesection}{0.6em}{}[{\color{line}\titlerule[1pt]}]
+\titleformat{\subsection}{\color{accent}\large\sbseries}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\color{muted}\normalsize\sbseries}{\thesubsubsection}{0.6em}{}
 
+% Páginas de Parte: hoja suelta con fondo agua (gradiente como la web)
+\titleclass{\part}{page}
+\assignpagestyle{\part}{empty}
+\titleformat{\part}[display]
+  {\centering}
+  {\begin{tikzpicture}[remember picture,overlay]
+     \shade[top color=agua,bottom color=agua2,shading angle=160]
+       (current page.south west) rectangle (current page.north east);
+   \end{tikzpicture}%
+   \vspace*{3.5cm}
+   {\color{muted}\large\sbseries PARTE}\\[6pt]
+   {\color{primary}\fontsize{84}{84}\selectfont\ebseries \thepart}}
+  {18pt}
+  {\color{ink}\fontsize{30}{37}\selectfont\ebseries}
+  [{\vspace{10pt}{\color{accent}\rule{0.32\textwidth}{2.5pt}}}]
+
+% ---- Cabeceras y pies ----
+\newcommand{\icapill}{\tikz[baseline=(n.base)]\node[fill=primary,text=white,rounded corners=3.2pt,inner xsep=4pt,inner ysep=1.6pt,font=\scriptsize\ebseries](n){ICA};}
 \pagestyle{fancy}\fancyhf{}
-\lhead{\small\color{icagray}\textbf{ICA} · Índice de Calidad del Agua}
-\rhead{\small\color{icagray}\leftmark}
-\lfoot{\small\color{icagray}ica.endho.mx}
-\rfoot{\small\color{icagray}\thepage}
+\lhead{\small\color{muted}\icapill~Índice de Calidad del Agua}
+\rhead{\small\color{muted}\leftmark}
+\lfoot{\small\color{muted}ica.endho.mx}
+\rfoot{\small\color{muted}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{line}\hrule width\headwidth height\headrulewidth depth 0pt}}
+\renewcommand{\footrule}{{\color{line}\hrule width\headwidth height\footrulewidth depth 0pt}}
 \renewcommand{\sectionmark}[1]{\markboth{#1}{}}
 
-% ---- Cajas ----
-\newtcolorbox{keybox}[1][]{colback=icalight,colframe=icablue,fonttitle=\bfseries,coltitle=white,
-  title={#1},boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
-\newtcolorbox{warnbox}[1][]{colback=icared!6,colframe=icared,fonttitle=\bfseries,coltitle=white,
-  title={#1},boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
-\newtcolorbox{okbox}[1][]{colback=icagreen!6,colframe=icagreen,fonttitle=\bfseries,coltitle=white,
-  title={#1},boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
-\newtcolorbox{sitebox}[1][]{colback=icacyan!7,colframe=icacyan,fonttitle=\bfseries,coltitle=white,
-  title={#1},boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,breakable}
-\newcommand{\eqbox}[1]{\begin{tcolorbox}[colback=white,colframe=icablue,boxrule=0.6pt,arc=1pt,
-  left=6pt,right=6pt,top=3pt,bottom=3pt]#1\end{tcolorbox}}
-\newcommand{\shot}[2]{\begin{center}\fcolorbox{icalight}{white}{\includegraphics[width=#2]{#1}}\end{center}}
+% ---- Banners (antes «cajas»): fondo translúcido + título saturado, sin marco ----
+% Mismos nombres de entorno -> el cuerpo no cambia.
+\newtcolorbox{keybox}[1][]{enhanced,breakable,colback=primary!8,colframe=primary!8,
+  boxrule=0pt,arc=6pt,left=8pt,right=8pt,top=6pt,bottom=7pt,
+  coltitle=primary,fonttitle=\sbseries,colbacktitle=primary!8,
+  title={#1},attach title to upper={\par\smallskip}}
+\newtcolorbox{warnbox}[1][]{enhanced,breakable,colback=catregular!16,colframe=catregular!16,
+  boxrule=0pt,arc=6pt,left=8pt,right=8pt,top=6pt,bottom=7pt,
+  coltitle=warnink,fonttitle=\sbseries,colbacktitle=catregular!16,
+  title={#1},attach title to upper={\par\smallskip}}
+\newtcolorbox{okbox}[1][]{enhanced,breakable,colback=catbuena!13,colframe=catbuena!13,
+  boxrule=0pt,arc=6pt,left=8pt,right=8pt,top=6pt,bottom=7pt,
+  coltitle=okink,fonttitle=\sbseries,colbacktitle=catbuena!13,
+  title={#1},attach title to upper={\par\smallskip}}
+\newtcolorbox{sitebox}[1][]{enhanced,breakable,colback=accent!10,colframe=accent!10,
+  boxrule=0pt,arc=6pt,left=8pt,right=8pt,top=6pt,bottom=7pt,
+  coltitle=accent!70!black,fonttitle=\sbseries,colbacktitle=accent!10,
+  title={#1},attach title to upper={\par\smallskip}}
+
+% Ecuaciones: tarjeta blanca con borde --line (como las «tarjetas de código» de Ayuda)
+\newcommand{\eqbox}[1]{\begin{tcolorbox}[enhanced,colback=white,colframe=line,boxrule=0.8pt,arc=6pt,
+  left=8pt,right=8pt,top=4pt,bottom=4pt]#1\end{tcolorbox}}
+
+% Capturas: tarjeta flotante (borde --line + sombra suave, como .card de la web)
+\newcommand{\shot}[2]{\begin{center}\begin{tcolorbox}[enhanced,width=#2,colback=white,colframe=line,
+  boxrule=0.6pt,arc=8pt,left=3pt,right=3pt,top=3pt,bottom=2pt,
+  drop fuzzy shadow=muted!45]
+  \centering\includegraphics[width=\linewidth]{#1}\end{tcolorbox}\end{center}}
+
+% Chip de categoría: pastilla redonda con tinta AA (como .chip-cat de la web)
+% \catchip[tinta]{fondo}{texto}   (tinta por defecto: blanca)
+\newcommand{\catchip}[3][white]{\tikz[baseline=(n.base)]\node[fill=#2,text=#1,
+  rounded corners=8pt,inner xsep=6.5pt,inner ysep=2.6pt,font=\footnotesize\sbseries](n){#3};}
 
 \begin{document}
 
 % =================== PORTADA ===================
 \begin{titlepage}
 \thispagestyle{empty}
-\begin{tcolorbox}[colback=icablue,colframe=icablue,arc=0pt,left=18pt,right=18pt,top=26pt,bottom=26pt,width=\textwidth]
-\color{white}
-{\fontsize{13}{13}\selectfont\bfseries\hspace{2pt}ICA}\\[6pt]
-{\fontsize{30}{34}\selectfont\bfseries Índice de Calidad del Agua}\\[4pt]
-{\LARGE Guía de referencia y manual de usuario}
-\end{tcolorbox}
+\begin{tikzpicture}[remember picture,overlay]
+  \shade[top color=agua,bottom color=agua2,shading angle=160]
+    (current page.south west) rectangle (current page.north east);
+\end{tikzpicture}%
 
-\vspace{1.2cm}
-\begin{minipage}{\textwidth}
+\vspace*{1.8cm}
+{\noindent\tikz[baseline=(n.base)]\node[left color=primary,right color=accent,text=white,
+  rounded corners=7pt,inner xsep=11pt,inner ysep=6.5pt,font=\LARGE\ebseries](n){ICA};\par}
+
+\vspace{1.5cm}
+{\noindent\fontsize{38}{45}\selectfont\ebseries Índice de Calidad del Agua\par}
+\vspace{10pt}
+{\noindent\LARGE\color{primary}\sbseries Guía de referencia y manual de usuario\par}
+
+\vspace{1.6cm}
+\begin{tcolorbox}[enhanced,width=\textwidth,colback=white,colframe=white,boxrule=0pt,
+  arc=10pt,left=16pt,right=16pt,top=13pt,bottom=13pt,drop fuzzy shadow=muted!45]
 \large
 Una aplicación web para calcular el \textbf{CCME Water Quality Index} directamente en el
 navegador, orientada a aguas mexicanas y desarrollada como respuesta a la solicitud de un
 \textbf{Índice de Calidad del Agua} para SEMARNAT.
-\end{minipage}
 
-\vspace{0.9cm}
-{\color{icacyan}\rule{\linewidth}{2pt}}
-\vspace{0.6cm}
-
-\begin{minipage}{\textwidth}\color{icaink}
+\vspace{0.7em}
+{\normalsize\color{muted}
 Este documento reúne, en un solo lugar: el fundamento y las ecuaciones del índice; la
 documentación completa del archivo de \emph{guías} (Guidelines) con sus tipos de regla y fórmulas;
-un ejemplo validado de extremo a extremo; y una guía de uso del sitio \textbf{ica.endho.mx}.
-\end{minipage}
+un ejemplo validado de extremo a extremo; y una guía de uso del sitio \textbf{ica.endho.mx}.}
+\end{tcolorbox}
 
 \vfill
-\begin{tcolorbox}[colback=icalight,colframe=icalight,arc=2pt]
-\small\color{icaink}
+\begin{tcolorbox}[colback=white!55,colframe=white!55,arc=6pt,left=10pt,right=10pt,top=7pt,bottom=7pt]
+\small
 \textbf{Sitio:} \href{https://ica.endho.mx}{ica.endho.mx} \quad\textbullet\quad
 \textbf{Código:} github.com/oscolv/ica \quad\textbullet\quad
 \textbf{Privacidad:} todo el cálculo ocurre en tu navegador; ningún dato se sube a un servidor.
 \end{tcolorbox}
-{\small\color{icagray}Documento de referencia técnica · \today}
+{\small\color{muted}Documento de referencia técnica · \today}
 \end{titlepage}
 
 \tableofcontents
@@ -214,14 +295,15 @@ El divisor $1.732\approx\sqrt{3}$ normaliza a 0–100 (el máximo de la raíz es
 se resta de 100 para que \textbf{más alto = mejor}.
 
 \section{Categorías}
-\begin{center}\renewcommand{\arraystretch}{1.25}
+\begin{center}\renewcommand{\arraystretch}{1.7}
 \begin{tabular}{@{}l l p{9.2cm}@{}}
-\toprule \textbf{Categoría} & \textbf{Rango} & \textbf{Significado} \\ \midrule
-Excelente & 95--100 & Ausencia virtual de amenaza; condiciones casi prístinas. \\
-Buena & 80--94 & Grado menor de amenaza; rara vez se aparta de lo deseable. \\
-Regular & 65--79 & Ocasionalmente amenazada; a veces se aparta de lo deseable. \\
-Marginal & 45--64 & Frecuentemente amenazada o deteriorada. \\
-Mala & 0--44 & Casi siempre amenazada o deteriorada. \\ \bottomrule
+\toprule
+{\footnotesize\sbseries\color{muted}CATEGORÍA} & {\footnotesize\sbseries\color{muted}RANGO} & {\leavevmode\footnotesize\sbseries\color{muted}SIGNIFICADO} \\ \midrule
+\catchip{catexcelente}{Excelente} & 95--100 & Ausencia virtual de amenaza; condiciones casi prístinas. \\
+\catchip[catbuenaink]{catbuena}{Buena} & 80--94 & Grado menor de amenaza; rara vez se aparta de lo deseable. \\
+\catchip[catregularink]{catregular}{Regular} & 65--79 & Ocasionalmente amenazada; a veces se aparta de lo deseable. \\
+\catchip[catmarginalink]{catmarginal}{Marginal} & 45--64 & Frecuentemente amenazada o deteriorada. \\
+\catchip{catmala}{Mala} & 0--44 & Casi siempre amenazada o deteriorada. \\ \bottomrule
 \end{tabular}
 \end{center}
 \begin{warnbox}[Cuidado con las fronteras]
@@ -551,7 +633,7 @@ mexicana pasaría de provisional a definitiva.
 \end{itemize}
 
 \vfill
-\begin{center}\small\color{icagray}
+\begin{center}\small\color{muted}
 \rule{0.4\textwidth}{0.4pt}\\[4pt]
 Guía de referencia de \textbf{ICA} · \href{https://ica.endho.mx}{ica.endho.mx}. Las ecuaciones y valores
 de guía son hechos técnicos publicados por el CCME; las explicaciones, figuras, capturas y el análisis
