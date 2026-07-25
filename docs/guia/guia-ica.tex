@@ -63,10 +63,11 @@
 \AtBeginEnvironment{tabular}{\addfontfeature{Numbers=Tabular}}
 \AtBeginEnvironment{longtable}{\addfontfeature{Numbers=Tabular}}
 
-\hypersetup{colorlinks=true,linkcolor=primary,urlcolor=accent,citecolor=primary,
+\hypersetup{colorlinks=true,linkcolor=primary,urlcolor=accent,citecolor=primary,linktoc=all,
   pdftitle={Guia de referencia ICA - Indice de Calidad del Agua},pdfauthor={ICA}}
 \DeclareCaptionFont{icasb}{\sbseries}
-\captionsetup{font=small,labelfont={icasb,color=primary}}
+% textfont: los floats arrancan con \normalcolor (negro kernel); el texto del caption va en tinta
+\captionsetup{font=small,labelfont={icasb,color=primary},textfont={color=ink}}
 \setlength{\parskip}{0.35em}
 \setlength{\parindent}{0pt}
 \arrayrulecolor{line}
