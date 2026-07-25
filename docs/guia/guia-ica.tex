@@ -2,7 +2,7 @@
 \usepackage[spanish,provide=*]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{geometry}
-\geometry{margin=2.3cm,headsep=14pt}
+\geometry{margin=2.3cm,headsep=14pt,headheight=14pt}
 \usepackage{fontspec}
 \usepackage{microtype}
 \usepackage{pifont}
@@ -15,11 +15,15 @@
 \usepackage{enumitem}
 \usepackage[most]{tcolorbox}
 \usepackage{fancyhdr}
+\usepackage{extramarks}
 \usepackage{titlesec}
 \usepackage{caption}
 \usepackage{etoolbox}
 \usepackage{tikz}
+\usepackage{needspace}
+\usepackage{ragged2e}
 \usepackage{hyperref}
+\usepackage{titletoc}
 
 % ---- Tokens «Agua viva» (espejo de src/styles/tokens.css, tema claro) ----
 \definecolor{agua}{HTML}{EEF7F7}      % --bg
@@ -65,6 +69,23 @@
 
 \hypersetup{colorlinks=true,linkcolor=primary,urlcolor=accent,citecolor=primary,linktoc=all,
   pdftitle={Guia de referencia ICA - Indice de Calidad del Agua},pdfauthor={ICA}}
+% ---- Índice general -----------------------------------------------------
+% Antes ocupaba dos páginas y la segunda quedaba vacía en tres cuartos. Se
+% compacta a una: la parte como rótulo-cintillo, la sección como entrada
+% fuerte con número colgado, y la subsección en gris con guía de puntos.
+\titlecontents{part}[0em]
+  {\addvspace{8pt}\color{muted}\footnotesize\sbseries}
+  {\MakeUppercase{Parte \thecontentslabel}\enspace}{}
+  {\hfill}[\vspace{1pt}{\color{line}\hrule height 0.6pt}\vspace{3pt}]
+\titlecontents{section}[1.6em]
+  {\addvspace{1.5pt}\sbseries\color{ink}}
+  {\contentslabel{1.6em}}{\hspace*{-1.6em}}
+  {\hfill\color{primary}\contentspage}
+\titlecontents{subsection}[3.6em]
+  {\small\color{muted}}
+  {\contentslabel{2.2em}}{\hspace*{-2.2em}}
+  {\titlerule*[6pt]{\color{line}.}\color{muted}\contentspage}
+
 \DeclareCaptionFont{icasb}{\sbseries}
 % textfont: los floats arrancan con \normalcolor (negro kernel); el texto del caption va en tinta
 \captionsetup{font=small,labelfont={icasb,color=primary},textfont={color=ink}}
@@ -75,32 +96,76 @@
 % (p. ej. «NOM-001-SEMARNAT-2021» en Referencias); no altera el texto, solo el espaciado
 \setlength{\emergencystretch}{1.5em}
 
+% ---- Disciplina de página ----------------------------------------------
+% Nada de líneas sueltas: una viuda o un huérfano cuesta más que una página
+% que cierra un poco antes. Con \raggedbottom ese aire sobrante se va al pie
+% (donde no se nota) en vez de estirarse entre párrafos (donde sí).
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+\brokenpenalty=10000
+\raggedbottom
+% Un título nunca se queda solo al pie: exige sitio para el rótulo + 3 líneas.
+% 8 líneas: varias secciones abren con un banner (tcolorbox), que es más alto
+% que el párrafo que \Needspace mediría. Con 5 el rótulo de §15 se quedaba
+% solo al pie y su banner saltaba de página.
+\pretocmd{\section}{\Needspace*{10\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace*{4\baselineskip}}{}{}
+\pretocmd{\subsubsection}{\Needspace*{3\baselineskip}}{}{}
+% Columnas estrechas de tabla: en 3–5 cm la justificación abre ríos y parte
+% palabras («incumplim-ientos»). En medidas cortas, bandera a la derecha.
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
 % ---- Títulos ----
 \titleformat{\section}{\color{primary}\Large\ebseries}{\thesection}{0.6em}{}[{\color{line}\titlerule[1pt]}]
 \titleformat{\subsection}{\color{accent}\large\sbseries}{\thesubsection}{0.6em}{}
 \titleformat{\subsubsection}{\color{muted}\normalsize\sbseries}{\thesubsubsection}{0.6em}{}
 
-% Páginas de Parte: hoja suelta con fondo agua (gradiente como la web)
+% Páginas de Parte: hoja suelta con fondo agua (gradiente como la web).
+% Alineadas a la izquierda (lee más a libro que centrado) y con el sumario de
+% la parte: eran cinco páginas casi vacías y ahora orientan al lector.
 \titleclass{\part}{page}
 \assignpagestyle{\part}{empty}
+% Sumario de la parte: mismo nivel «section», pero con prefijo «p» para no
+% pisar el formato del índice general.
+\titlecontents{psection}[2.1em]
+  {\addvspace{5pt}\sbseries\color{ink}}
+  {\contentslabel{2.1em}}{\hspace*{-2.1em}}
+  {\titlerule*[6pt]{\color{line}.}\color{primary}\contentspage}
+% \normalfont\normalsize: el after-code de \titleformat hereda el cuerpo del
+% título (30 pt ExtraBold); sin reponer la fuente, el sumario sale gigante.
+\newcommand{\partsumario}{%
+  \vspace{26pt}\par\normalfont\normalsize\color{ink}%
+  \begin{minipage}{0.66\textwidth}
+    {\color{muted}\footnotesize\sbseries EN ESTA PARTE\par}
+    \vspace{3pt}{\color{line}\hrule height 0.6pt}\vspace{7pt}
+    \printcontents[parts]{p}{1}{\setcounter{tocdepth}{1}}
+  \end{minipage}\par}
 \titleformat{\part}[display]
-  {\centering}
+  {\raggedright}
   {\begin{tikzpicture}[remember picture,overlay]
      \shade[top color=agua,bottom color=agua2,shading angle=160]
        (current page.south west) rectangle (current page.north east);
    \end{tikzpicture}%
-   \vspace*{3.5cm}
-   {\color{muted}\large\sbseries PARTE}\\[6pt]
-   {\color{primary}\fontsize{84}{84}\selectfont\ebseries \thepart}}
-  {18pt}
-  {\color{ink}\fontsize{30}{37}\selectfont\ebseries}
-  [{\vspace{10pt}{\color{accent}\rule{0.32\textwidth}{2.5pt}}}]
+   \vspace*{3.2cm}
+   {\color{muted}\large\sbseries PARTE}\\[10pt]
+   % Sin tracking, «II» y «III» se leen como marcas de conteo, no como
+   % números romanos. El espaciado los separa en cifras legibles.
+   {\color{primary}\fontsize{76}{76}\selectfont\ebseries
+    \addfontfeature{LetterSpace=14}\thepart}}
+  {16pt}
+  {\color{ink}\fontsize{30}{37}\selectfont\ebseries\RaggedRight}
+  [{\vspace{12pt}{\color{accent}\rule{0.30\textwidth}{2.5pt}}\startcontents[parts]\partsumario}]
 
 % ---- Cabeceras y pies ----
 \newcommand{\icapill}{\tikz[baseline=(n.base)]\node[fill=primary,text=white,rounded corners=3.2pt,inner xsep=4pt,inner ysep=1.6pt,font=\scriptsize\ebseries](n){ICA};}
 \pagestyle{fancy}\fancyhf{}
 \lhead{\small\color{muted}\icapill~Índice de Calidad del Agua}
-\rhead{\small\color{muted}\leftmark}
+% \firstleftmark, no \leftmark: el folio debe nombrar la sección en la que
+% entras al abrir la página, no la última que empieza al pie (que aún no has
+% leído). Con \leftmark, la página de «Qué es ICA» se anunciaba como «Los tres
+% factores».
+\rhead{\small\color{muted}\firstleftmark}
 \lfoot{\small\color{muted}ica.endho.mx}
 \rfoot{\small\color{muted}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -112,7 +177,10 @@
 % ---- Banners (antes «cajas»): fondo translúcido + título saturado, sin marco ----
 % Mismos nombres de entorno -> el cuerpo no cambia.
 % colupper: tcolorbox pone el cuerpo en negro por defecto; lo fijamos a la tinta
-\tcbset{colupper=ink}
+% `lines before break`: si un banner no puede dejar 4 líneas antes del corte,
+% pasa entero a la página siguiente. Evita los jirones de 2 líneas colgando en
+% la cabecera de la página, que era el peor defecto de maquetación del PDF.
+\tcbset{colupper=ink,lines before break=4,before skip=8pt,after skip=10pt}
 \newtcolorbox{keybox}[1][]{enhanced,breakable,colback=primary!8,colframe=primary!8,
   boxrule=0pt,arc=6pt,left=8pt,right=8pt,top=6pt,bottom=7pt,
   coltitle=primary,fonttitle=\sbseries,colbacktitle=primary!8,
@@ -145,6 +213,30 @@
 \newcommand{\catchip}[3][white]{\tikz[baseline=(n.base)]\node[fill=#2,text=#1,
   rounded corners=8pt,inner xsep=6.5pt,inner ysep=2.6pt,font=\footnotesize\sbseries](n){#3};}
 
+% Escala 0–100 del índice: la portada tenía un hueco muerto entre la tarjeta de
+% entrada y el pie. En vez de rellenarlo con adorno, se pone el objeto central
+% del documento —el semáforo de categorías— a tamaño de portada.
+% Unidad x = 1 punto del índice, así los tramos salen a escala real.
+\newcommand{\escalaica}{%
+\begin{tikzpicture}[x=\linewidth/100,y=1pt]
+  \begin{scope}
+    \clip[rounded corners=6pt] (0,0) rectangle (100,24);
+    \fill[catmala]       (0,0) rectangle  (45,24);
+    \fill[catmarginal]  (45,0) rectangle  (65,24);
+    \fill[catregular]   (65,0) rectangle  (80,24);
+    \fill[catbuena]     (80,0) rectangle  (95,24);
+    \fill[catexcelente] (95,0) rectangle (100,24);
+  \end{scope}
+  % cortes en blanco: separan los tramos sin añadir una línea de color más
+  \foreach \x in {45,65,80,95} \draw[white,line width=1.1pt] (\x,0) -- (\x,24);
+  % Extremos arriba, cortes abajo: puestos en la misma línea, «95» y «100»
+  % chocaban (solo hay 5 puntos de índice entre ellos).
+  \node[anchor=south west,font=\scriptsize\sbseries,text=muted] at   (0,27) {0};
+  \node[anchor=south east,font=\scriptsize\sbseries,text=muted] at (100,27) {100};
+  \foreach \x in {45,65,80,95}
+    \node[anchor=north,font=\scriptsize\sbseries,text=muted] at (\x,-4) {\x};
+\end{tikzpicture}}
+
 \begin{document}
 
 % =================== PORTADA ===================
@@ -160,7 +252,9 @@
   rounded corners=7pt,inner xsep=11pt,inner ysep=6.5pt,font=\LARGE\ebseries](n){ICA};\par}
 
 \vspace{1.5cm}
-{\noindent\fontsize{38}{45}\selectfont\ebseries Índice de Calidad del Agua\par}
+% 36 pt, no 38: a 38 el título se salía 17.6 pt de la caja y rompía la
+% alineación derecha con la tarjeta de entrada que va debajo.
+{\noindent\fontsize{36}{43}\selectfont\ebseries Índice de Calidad del Agua\par}
 \vspace{10pt}
 {\noindent\LARGE\color{primary}\sbseries Guía de referencia y manual de usuario\par}
 
@@ -178,6 +272,20 @@ Este documento reúne, en un solo lugar: el fundamento y las ecuaciones del índ
 documentación completa del archivo de \emph{guías} (Guidelines) con sus tipos de regla y fórmulas;
 un ejemplo validado de extremo a extremo; y una guía de uso del sitio \textbf{ica.endho.mx}.}
 \end{tcolorbox}
+
+\vspace{1.5cm}
+{\noindent\color{muted}\footnotesize\sbseries LA ESCALA DEL ÍNDICE\par}
+\vspace{16pt}
+\noindent\escalaica\par
+% Reparto uniforme, no centrado por tramo: los dos últimos tramos (15 y 5
+% puntos) son más estrechos que sus propias pastillas y se solapaban.
+\vspace{20pt}
+\noindent\hbox to \linewidth{%
+  \catchip{catmala}{Mala}\hfill
+  \catchip[catmarginalink]{catmarginal}{Marginal}\hfill
+  \catchip[catregularink]{catregular}{Regular}\hfill
+  \catchip[catbuenaink]{catbuena}{Buena}\hfill
+  \catchip{catexcelente}{Excelente}}
 
 \vfill
 \begin{tcolorbox}[colback=white!55,colframe=white!55,arc=6pt,left=10pt,right=10pt,top=7pt,bottom=7pt]
@@ -288,7 +396,7 @@ $0.166/0.005-1=32$. La guía no solo decide \emph{si} falla, también \emph{por 
 \eqbox{\[F_3=\left(\frac{nse}{0.01\,nse+0.01}\right)\tag{5}\]}
 
 \begin{figure}[h]\centering
-\includegraphics[width=0.74\textwidth]{manual_assets/f3_curve.pdf}
+\includegraphics[width=0.64\textwidth]{manual_assets/f3_curve.pdf}
 \caption{Función asintótica de $F_3$ (eje horizontal logarítmico). Las constantes $0.01$ son fijas del
 manual: pasarse \emph{un poco} castiga mucho; pasarse \emph{muchísimo} ya casi no cambia el resultado
 (saturación en 100). Esto atenúa la influencia indebida de parámetros con rango de órdenes de magnitud.}
@@ -300,7 +408,10 @@ El divisor $1.732\approx\sqrt{3}$ normaliza a 0–100 (el máximo de la raíz es
 se resta de 100 para que \textbf{más alto = mejor}.
 
 \section{Categorías}
-\begin{center}\renewcommand{\arraystretch}{1.7}
+% 1.45 (antes 1.7): las pastillas siguen holgadas y la tabla recupera las
+% líneas que hacían falta para que el banner «Cuidado con las fronteras» —que
+% comenta justo esta tabla— no quedara huérfano en la página siguiente.
+\begin{center}\renewcommand{\arraystretch}{1.45}
 \begin{tabular}{@{}l l p{9.2cm}@{}}
 \toprule
 {\footnotesize\sbseries\color{muted}CATEGORÍA} & {\footnotesize\sbseries\color{muted}RANGO} & {\leavevmode\footnotesize\sbseries\color{muted}SIGNIFICADO} \\ \midrule
@@ -567,7 +678,7 @@ Por cada estación: un \textbf{medidor} 0–100 con la categoría, una \textbf{n
 \textbf{descomposición F1/F2/F3}, la \textbf{tendencia por año} y un \textbf{mapa de calor de
 excedencias} (parámetro × fecha, coloreado por magnitud). Todo exportable a CSV.
 
-\shot{manual_assets/site_resultados.png}{0.82\textwidth}
+\shot{manual_assets/site_resultados.png}{0.72\textwidth}
 
 \subsection{\texorpdfstring{Paso \ding{195} Ayuda}{Paso 4 Ayuda}}
 Un tutorial con el ejemplo del manual cargable con un clic (para comprobar el WQI=88), más la
@@ -628,7 +739,9 @@ fuente citada, y que un experto revise las fórmulas dependientes de dureza/pH. 
 mexicana pasaría de provisional a definitiva.
 
 \section{Referencias}
-\begin{itemize}[leftmargin=1.4em,label={}]
+% Sangría francesa: en una lista bibliográfica el ojo baja por el apellido del
+% autor, así que la primera línea manda y las de continuación se retiran.
+\begin{itemize}[leftmargin=1.4em,label={},itemindent=-1.4em,itemsep=4pt]
 \item CCME. 2017. \emph{Canadian Water Quality Guidelines for the Protection of Aquatic Life: CCME Water Quality Index, User's Manual — 2017 Update.} Winnipeg.
 \item CCME. 2001. \emph{CCME Water Quality Index 1.0, Technical Report.}
 \item Rocchini, R. y L.G. Swain. 1995. \emph{The British Columbia Water Quality Index.}
